@@ -1,0 +1,339 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); font-size: 14px; color: var(--color-text-primary); }
+.app { padding: 1rem; max-width: 900px; margin: 0 auto; }
+.tab-bar { display: flex; gap: 6px; margin-bottom: 1rem; flex-wrap: wrap; align-items: center; }
+.tab { padding: 6px 14px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: var(--color-background-primary); cursor: pointer; font-size: 13px; color: var(--color-text-secondary); }
+.tab.active { background: var(--color-background-secondary); color: var(--color-text-primary); font-weight: 500; border-color: var(--color-border-primary); }
+.tab-add { padding: 6px 10px; border-radius: var(--border-radius-md); border: 0.5px dashed var(--color-border-secondary); background: transparent; cursor: pointer; font-size: 13px; color: var(--color-text-secondary); }
+.card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 1rem; }
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.card-title { font-size: 15px; font-weight: 500; }
+.section-label { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+input[type=text], input[type=number], select { width: 100%; }
+.btn { padding: 6px 14px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: var(--color-background-primary); cursor: pointer; font-size: 13px; color: var(--color-text-primary); }
+.btn:hover { background: var(--color-background-secondary); }
+.btn-primary { background: var(--color-text-primary); color: var(--color-background-primary); border-color: var(--color-text-primary); }
+.btn-primary:hover { opacity: 0.85; }
+.btn-danger { color: var(--color-text-danger); border-color: var(--color-border-danger); }
+.btn-danger:hover { background: var(--color-background-danger); }
+.btn-sm { padding: 4px 10px; font-size: 12px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.flex-row { display: flex; gap: 8px; align-items: center; }
+.flex-1 { flex: 1; }
+.competitor-row { display: grid; grid-template-columns: 1fr repeat(5,60px) 80px 40px; gap: 6px; align-items: center; padding: 6px 0; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.competitor-row:last-child { border-bottom: none; }
+.competitor-header { display: grid; grid-template-columns: 1fr repeat(5,60px) 80px 40px; gap: 6px; padding: 4px 0 8px; border-bottom: 0.5px solid var(--color-border-secondary); margin-bottom: 4px; }
+.col-label { font-size: 11px; color: var(--color-text-secondary); text-align: center; }
+.score-input { width: 100%; text-align: center; padding: 4px 2px; font-size: 13px; }
+.avg-badge { font-size: 13px; font-weight: 500; text-align: center; padding: 4px 6px; border-radius: var(--border-radius-md); background: var(--color-background-secondary); }
+.rank-badge { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; background: var(--color-background-secondary); color: var(--color-text-secondary); margin: 0 auto; }
+.rank-1 { background: #FAC775; color: #633806; }
+.rank-2 { background: #D3D1C7; color: #2C2C2A; }
+.rank-3 { background: #F0997B; color: #4A1B0C; }
+.results-row { display: grid; grid-template-columns: 44px 1fr 80px; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.results-row:last-child { border-bottom: none; }
+.empty-state { text-align: center; padding: 2rem; color: var(--color-text-secondary); font-size: 13px; }
+.setup-section { margin-bottom: 1rem; }
+.category-tag { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-tertiary); background: var(--color-background-secondary); font-size: 13px; margin: 4px; }
+.category-tag button { background: none; border: none; cursor: pointer; color: var(--color-text-secondary); font-size: 14px; line-height: 1; padding: 0; }
+.mat-selector { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; }
+.mat-btn { padding: 5px 12px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: var(--color-background-primary); cursor: pointer; font-size: 13px; }
+.mat-btn.active { background: var(--color-text-primary); color: var(--color-background-primary); border-color: var(--color-text-primary); }
+.summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: 10px; margin-bottom: 1rem; }
+.metric-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 0.75rem 1rem; }
+.metric-label { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 4px; }
+.metric-value { font-size: 22px; font-weight: 500; }
+.notice { font-size: 12px; color: var(--color-text-secondary); padding: 6px 10px; background: var(--color-background-secondary); border-radius: var(--border-radius-md); margin-bottom: 1rem; }
+</style>
+
+<div class="app">
+<h2 class="sr-only">Karate Kata Competition Scoring App</h2>
+
+<div id="root"></div>
+</div>
+
+<script>
+let state = {
+  view: 'setup',
+  categories: ['Junior Male','Junior Female','Senior Male','Senior Female'],
+  newCategory: '',
+  matCount: 2,
+  mats: {},
+  activeMat: 1,
+  activeCategory: null,
+};
+
+function getMatData(mat, cat) {
+  if (!state.mats[mat]) state.mats[mat] = {};
+  if (!state.mats[mat][cat]) state.mats[mat][cat] = { competitors: [] };
+  return state.mats[mat][cat];
+}
+
+function calcAvg(scores) {
+  const vals = scores.filter(s => s !== '' && s !== null && !isNaN(parseFloat(s)));
+  if (!vals.length) return null;
+  const sum = vals.reduce((a,b) => a + parseFloat(b), 0);
+  return (sum / vals.length).toFixed(2);
+}
+
+function getRankedCompetitors(mat, cat) {
+  const data = getMatData(mat, cat);
+  return [...data.competitors]
+    .map((c,i) => ({ ...c, _idx: i, avg: calcAvg(c.scores) }))
+    .sort((a,b) => {
+      if (b.avg === null && a.avg === null) return 0;
+      if (a.avg === null) return 1;
+      if (b.avg === null) return -1;
+      return parseFloat(b.avg) - parseFloat(a.avg);
+    });
+}
+
+function render() {
+  document.getElementById('root').innerHTML = buildHTML();
+  attachEvents();
+}
+
+function buildHTML() {
+  if (state.view === 'setup') return buildSetup();
+  if (state.view === 'scoring') return buildScoring();
+  if (state.view === 'results') return buildResults();
+  return '';
+}
+
+function buildSetup() {
+  const cats = state.categories.map(c => `
+    <span class="category-tag">${c}
+      <button onclick="removeCategory('${c}')" aria-label="Remove ${c}">×</button>
+    </span>`).join('');
+  return `
+    <div class="flex-row" style="margin-bottom:1.25rem;">
+      <div style="flex:1">
+        <h1 style="font-size:20px;font-weight:500;">Kata competition scorer</h1>
+        <p style="font-size:13px;color:var(--color-text-secondary);margin-top:2px;">Set up categories and mats, then begin scoring</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Categories</span></div>
+      <p class="section-label">Active categories</p>
+      <div style="margin-bottom:1rem;">${cats || '<span style="color:var(--color-text-secondary);font-size:13px;">No categories yet</span>'}</div>
+      <p class="section-label">Add a category</p>
+      <div class="flex-row">
+        <input type="text" id="newCat" placeholder="e.g. Cadet Female" value="${state.newCategory}" class="flex-1" />
+        <button class="btn" onclick="addCategory()"><i class="ti ti-plus" aria-hidden="true"></i> Add</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Mats / rings</span></div>
+      <p class="section-label">Number of simultaneous mats</p>
+      <div class="flex-row" style="margin-bottom:0.5rem;">
+        ${[1,2,3,4,5].map(n => `<button class="mat-btn ${state.matCount===n?'active':''}" onclick="setMatCount(${n})">${n}</button>`).join('')}
+      </div>
+      <p style="font-size:12px;color:var(--color-text-secondary);">${state.matCount} mat${state.matCount>1?'s':''} will run simultaneously</p>
+    </div>
+    <div class="flex-row" style="justify-content:flex-end;">
+      <button class="btn btn-primary" onclick="startScoring()" ${state.categories.length===0?'disabled':''}>
+        Start competition <i class="ti ti-arrow-right" aria-hidden="true"></i>
+      </button>
+    </div>`;
+}
+
+function buildScoring() {
+  const mat = state.activeMat;
+  const cat = state.activeCategory || state.categories[0];
+  if (!state.activeCategory) state.activeCategory = cat;
+  const data = getMatData(mat, cat);
+  const ranked = getRankedCompetitors(mat, cat);
+
+  const matTabs = Array.from({length:state.matCount},(_,i)=>i+1).map(m =>
+    `<button class="mat-btn ${mat===m?'active':''}" onclick="setActiveMat(${m})">Mat ${m}</button>`
+  ).join('');
+
+  const catTabs = state.categories.map(c =>
+    `<button class="tab ${cat===c?'active':''}" onclick="setActiveCategory('${c}')">${c}</button>`
+  ).join('');
+
+  const rows = ranked.length ? ranked.map((c,rank) => {
+    const scoreInputs = [0,1,2,3,4].map(j =>
+      `<input type="number" class="score-input" min="50" max="100" step="0.1"
+        value="${c.scores[j]??''}"
+        placeholder="—"
+        onchange="updateScore(${c._idx},${j},this.value)"
+        onblur="validateScore(this)" />`
+    ).join('');
+    const avg = c.avg;
+    const rankBadge = rank < 3 ? `<div class="rank-badge rank-${rank+1}">${rank+1}</div>` : `<div class="rank-badge">${rank+1}</div>`;
+    return `<div class="competitor-row">
+      <span style="font-size:13px;font-weight:500;">${c.name}</span>
+      ${scoreInputs}
+      <div class="avg-badge">${avg??'—'}</div>
+      ${rankBadge}
+    </div>`;
+  }).join('') : `<div class="empty-state">No competitors added yet. Add names below.</div>`;
+
+  return `
+    <div class="flex-row" style="margin-bottom:1rem;">
+      <h1 style="font-size:20px;font-weight:500;flex:1;">Live scoring</h1>
+      <button class="btn btn-sm" onclick="goSetup()"><i class="ti ti-settings" aria-hidden="true"></i> Setup</button>
+      <button class="btn btn-sm btn-primary" onclick="goResults()"><i class="ti ti-chart-bar" aria-hidden="true"></i> Results</button>
+    </div>
+    <div class="mat-selector">${matTabs}</div>
+    <div class="tab-bar">${catTabs}</div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Mat ${mat} — ${cat}</span>
+        <span style="font-size:12px;color:var(--color-text-secondary);">${data.competitors.length} competitor${data.competitors.length!==1?'s':''}</span>
+      </div>
+      <div class="competitor-header">
+        <span class="col-label" style="text-align:left;">Competitor</span>
+        <span class="col-label">Judge 1</span>
+        <span class="col-label">Judge 2</span>
+        <span class="col-label">Judge 3</span>
+        <span class="col-label">Judge 4</span>
+        <span class="col-label">Judge 5</span>
+        <span class="col-label">Average</span>
+        <span class="col-label">Rank</span>
+      </div>
+      ${rows}
+      <div class="flex-row" style="margin-top:1rem;padding-top:1rem;border-top:0.5px solid var(--color-border-tertiary);">
+        <input type="text" id="newName" placeholder="Competitor name" class="flex-1" onkeydown="if(event.key==='Enter')addCompetitor()" />
+        <button class="btn" onclick="addCompetitor()"><i class="ti ti-plus" aria-hidden="true"></i> Add</button>
+      </div>
+    </div>`;
+}
+
+function buildResults() {
+  const summary = summariseAll();
+  const matCount = state.matCount;
+
+  const tables = state.categories.map(cat => {
+    const rows = [];
+    for (let m = 1; m <= matCount; m++) {
+      const ranked = getRankedCompetitors(m, cat);
+      ranked.forEach((c, rank) => {
+        if (c.avg !== null) rows.push({ name: c.name, avg: c.avg, mat: m, rank: rank+1 });
+      });
+    }
+    rows.sort((a,b) => parseFloat(b.avg)-parseFloat(a.avg));
+    if (!rows.length) return '';
+    const rowsHTML = rows.map((r,i) => {
+      const badge = i<3 ? `<div class="rank-badge rank-${i+1}">${i+1}</div>` : `<div class="rank-badge">${i+1}</div>`;
+      return `<div class="results-row">${badge}<span style="font-size:13px;">${r.name} <span style="color:var(--color-text-secondary);font-size:11px;">Mat ${r.mat}</span></span><span style="font-weight:500;font-size:14px;text-align:right;">${r.avg}</span></div>`;
+    }).join('');
+    return `<div class="card"><div class="card-header"><span class="card-title">${cat}</span><span style="font-size:12px;color:var(--color-text-secondary);">${rows.length} scored</span></div>${rowsHTML}</div>`;
+  }).join('');
+
+  return `
+    <div class="flex-row" style="margin-bottom:1rem;">
+      <h1 style="font-size:20px;font-weight:500;flex:1;">Results</h1>
+      <button class="btn btn-sm" onclick="goScoring()"><i class="ti ti-edit" aria-hidden="true"></i> Back to scoring</button>
+    </div>
+    <div class="summary-grid">
+      <div class="metric-card"><div class="metric-label">Total competitors</div><div class="metric-value">${summary.total}</div></div>
+      <div class="metric-card"><div class="metric-label">Categories</div><div class="metric-value">${state.categories.length}</div></div>
+      <div class="metric-card"><div class="metric-label">Mats active</div><div class="metric-value">${state.matCount}</div></div>
+    </div>
+    ${tables || '<div class="empty-state">No scores entered yet.</div>'}
+    <div style="margin-top:1rem;text-align:right;">
+      <button class="btn btn-sm" onclick="exportCSV()"><i class="ti ti-download" aria-hidden="true"></i> Export CSV</button>
+    </div>`;
+}
+
+function summariseAll() {
+  let total = 0;
+  for (let m = 1; m <= state.matCount; m++) {
+    state.categories.forEach(cat => {
+      const d = getMatData(m, cat);
+      total += d.competitors.filter(c => c.avg !== undefined || calcAvg(c.scores) !== null).length;
+    });
+  }
+  return { total };
+}
+
+function attachEvents() {}
+
+function addCategory() {
+  const val = document.getElementById('newCat')?.value?.trim();
+  if (val && !state.categories.includes(val)) {
+    state.categories.push(val);
+    state.newCategory = '';
+  }
+  render();
+}
+
+function removeCategory(cat) {
+  state.categories = state.categories.filter(c => c !== cat);
+  if (state.activeCategory === cat) state.activeCategory = state.categories[0] || null;
+  render();
+}
+
+function setMatCount(n) { state.matCount = n; render(); }
+function setActiveMat(m) { state.activeMat = m; render(); }
+function setActiveCategory(c) { state.activeCategory = c; render(); }
+function startScoring() { state.view = 'scoring'; state.activeCategory = state.categories[0]; render(); }
+function goSetup() { state.view = 'setup'; render(); }
+function goResults() { state.view = 'results'; render(); }
+function goScoring() { state.view = 'scoring'; render(); }
+
+function addCompetitor() {
+  const input = document.getElementById('newName');
+  const name = input?.value?.trim();
+  if (!name) return;
+  const data = getMatData(state.activeMat, state.activeCategory);
+  data.competitors.push({ name, scores: ['','','','',''] });
+  render();
+}
+
+function updateScore(idx, scoreIdx, val) {
+  const data = getMatData(state.activeMat, state.activeCategory);
+  const ranked = getRankedCompetitors(state.activeMat, state.activeCategory);
+  const orig = ranked[idx];
+  if (!orig) return;
+  data.competitors[orig._idx].scores[scoreIdx] = val === '' ? '' : val;
+  const sortedDiv = document.querySelector('.competitor-header');
+  if (sortedDiv) {
+    const newRanked = getRankedCompetitors(state.activeMat, state.activeCategory);
+    newRanked.forEach((c, rank) => {
+      const avg = calcAvg(c.scores);
+      const avgCells = document.querySelectorAll('.avg-badge');
+      const rankCells = document.querySelectorAll('.rank-badge');
+    });
+  }
+}
+
+function validateScore(input) {
+  let v = parseFloat(input.value);
+  if (isNaN(v)) { input.value = ''; return; }
+  if (v < 50) v = 50;
+  if (v > 100) v = 100;
+  input.value = v;
+  const data = getMatData(state.activeMat, state.activeCategory);
+  render();
+}
+
+function exportCSV() {
+  let csv = 'Mat,Category,Competitor,J1,J2,J3,J4,J5,Average,Rank\n';
+  state.categories.forEach(cat => {
+    const rows = [];
+    for (let m = 1; m <= state.matCount; m++) {
+      const ranked = getRankedCompetitors(m, cat);
+      ranked.forEach((c, rank) => {
+        rows.push({ ...c, mat: m, overallRank: rank+1 });
+      });
+    }
+    rows.sort((a,b) => parseFloat(b.avg||0)-parseFloat(a.avg||0));
+    rows.forEach((c, i) => {
+      csv += `${c.mat},"${cat}","${c.name}",${c.scores.map(s=>s===''?'':s).join(',')},${c.avg??''},${i+1}\n`;
+    });
+  });
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'kata_scores.csv'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+render();
+</script>

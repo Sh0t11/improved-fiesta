@@ -1,339 +1,275 @@
 
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font-sans); font-size: 14px; color: var(--color-text-primary); }
-.app { padding: 1rem; max-width: 900px; margin: 0 auto; }
-.tab-bar { display: flex; gap: 6px; margin-bottom: 1rem; flex-wrap: wrap; align-items: center; }
-.tab { padding: 6px 14px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: var(--color-background-primary); cursor: pointer; font-size: 13px; color: var(--color-text-secondary); }
-.tab.active { background: var(--color-background-secondary); color: var(--color-text-primary); font-weight: 500; border-color: var(--color-border-primary); }
-.tab-add { padding: 6px 10px; border-radius: var(--border-radius-md); border: 0.5px dashed var(--color-border-secondary); background: transparent; cursor: pointer; font-size: 13px; color: var(--color-text-secondary); }
-.card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 1rem; }
-.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
-.card-title { font-size: 15px; font-weight: 500; }
-.section-label { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em; }
-input[type=text], input[type=number], select { width: 100%; }
-.btn { padding: 6px 14px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: var(--color-background-primary); cursor: pointer; font-size: 13px; color: var(--color-text-primary); }
-.btn:hover { background: var(--color-background-secondary); }
-.btn-primary { background: var(--color-text-primary); color: var(--color-background-primary); border-color: var(--color-text-primary); }
-.btn-primary:hover { opacity: 0.85; }
-.btn-danger { color: var(--color-text-danger); border-color: var(--color-border-danger); }
-.btn-danger:hover { background: var(--color-background-danger); }
-.btn-sm { padding: 4px 10px; font-size: 12px; }
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-.flex-row { display: flex; gap: 8px; align-items: center; }
-.flex-1 { flex: 1; }
-.competitor-row { display: grid; grid-template-columns: 1fr repeat(5,60px) 80px 40px; gap: 6px; align-items: center; padding: 6px 0; border-bottom: 0.5px solid var(--color-border-tertiary); }
-.competitor-row:last-child { border-bottom: none; }
-.competitor-header { display: grid; grid-template-columns: 1fr repeat(5,60px) 80px 40px; gap: 6px; padding: 4px 0 8px; border-bottom: 0.5px solid var(--color-border-secondary); margin-bottom: 4px; }
-.col-label { font-size: 11px; color: var(--color-text-secondary); text-align: center; }
-.score-input { width: 100%; text-align: center; padding: 4px 2px; font-size: 13px; }
-.avg-badge { font-size: 13px; font-weight: 500; text-align: center; padding: 4px 6px; border-radius: var(--border-radius-md); background: var(--color-background-secondary); }
-.rank-badge { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; background: var(--color-background-secondary); color: var(--color-text-secondary); margin: 0 auto; }
-.rank-1 { background: #FAC775; color: #633806; }
-.rank-2 { background: #D3D1C7; color: #2C2C2A; }
-.rank-3 { background: #F0997B; color: #4A1B0C; }
-.results-row { display: grid; grid-template-columns: 44px 1fr 80px; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 0.5px solid var(--color-border-tertiary); }
-.results-row:last-child { border-bottom: none; }
-.empty-state { text-align: center; padding: 2rem; color: var(--color-text-secondary); font-size: 13px; }
-.setup-section { margin-bottom: 1rem; }
-.category-tag { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-tertiary); background: var(--color-background-secondary); font-size: 13px; margin: 4px; }
-.category-tag button { background: none; border: none; cursor: pointer; color: var(--color-text-secondary); font-size: 14px; line-height: 1; padding: 0; }
-.mat-selector { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; }
-.mat-btn { padding: 5px 12px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: var(--color-background-primary); cursor: pointer; font-size: 13px; }
-.mat-btn.active { background: var(--color-text-primary); color: var(--color-background-primary); border-color: var(--color-text-primary); }
-.summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: 10px; margin-bottom: 1rem; }
-.metric-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 0.75rem 1rem; }
-.metric-label { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 4px; }
-.metric-value { font-size: 22px; font-weight: 500; }
-.notice { font-size: 12px; color: var(--color-text-secondary); padding: 6px 10px; background: var(--color-background-secondary); border-radius: var(--border-radius-md); margin-bottom: 1rem; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);font-size:14px;color:var(--color-text-primary);background:var(--color-background-tertiary)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.shell{min-height:100vh;display:flex;flex-direction:column}
+.topbar{background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);padding:0 1.25rem;display:flex;align-items:center;gap:12px;height:52px;position:sticky;top:0;z-index:10}
+.topbar-logo{display:flex;align-items:center;gap:8px;font-weight:500;font-size:15px}
+.logo-mark{width:28px;height:28px;border-radius:6px;background:#1D9E75;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:500}
+.topbar-spacer{flex:1}
+.topbar-nav{display:flex;gap:4px}
+.nav-btn{padding:5px 12px;border-radius:var(--border-radius-md);border:none;background:transparent;cursor:pointer;font-size:13px;color:var(--color-text-secondary);display:flex;align-items:center;gap:5px}
+.nav-btn:hover{background:var(--color-background-secondary);color:var(--color-text-primary)}
+.nav-btn.active{background:var(--color-background-secondary);color:var(--color-text-primary);font-weight:500}
+.main{flex:1;padding:1.5rem 1.25rem;max-width:960px;width:100%;margin:0 auto}
+.page-header{margin-bottom:1.5rem}
+.page-title{font-size:22px;font-weight:500;margin-bottom:2px}
+.page-sub{font-size:13px;color:var(--color-text-secondary)}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:1rem}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+.card-title{font-size:15px;font-weight:500}
+.card-meta{font-size:12px;color:var(--color-text-secondary)}
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1.25rem}
+.metric{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:0.875rem 1rem}
+.metric-label{font-size:12px;color:var(--color-text-secondary);margin-bottom:4px}
+.metric-value{font-size:24px;font-weight:500}
+.section-label{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.tag{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);font-size:13px;margin:3px}
+.tag button{background:none;border:none;cursor:pointer;color:var(--color-text-secondary);font-size:15px;line-height:1;padding:0;display:flex;align-items:center}
+.tag button:hover{color:var(--color-text-primary)}
+.mat-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
+.pill{padding:5px 14px;border-radius:20px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);cursor:pointer;font-size:13px;color:var(--color-text-secondary);transition:all .1s}
+.pill:hover{border-color:var(--color-border-primary);color:var(--color-text-primary)}
+.pill.active{background:#1D9E75;border-color:#1D9E75;color:#fff;font-weight:500}
+.cat-tabs{display:flex;gap:0;margin-bottom:1.25rem;border-bottom:0.5px solid var(--color-border-tertiary)}
+.cat-tab{padding:8px 16px;border:none;background:transparent;cursor:pointer;font-size:13px;color:var(--color-text-secondary);border-bottom:2px solid transparent;margin-bottom:-0.5px}
+.cat-tab:hover{color:var(--color-text-primary)}
+.cat-tab.active{color:#1D9E75;border-bottom-color:#1D9E75;font-weight:500}
+.status-bar{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;background:var(--color-background-secondary);border-radius:var(--border-radius-md);margin-bottom:1rem;gap:12px}
+.status-text{font-size:13px;color:var(--color-text-secondary);display:flex;align-items:center;gap:6px}
+.btn{padding:6px 14px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);cursor:pointer;font-size:13px;color:var(--color-text-primary);display:inline-flex;align-items:center;gap:5px}
+.btn:hover{background:var(--color-background-secondary)}
+.btn-primary{background:#1D9E75;border-color:#1D9E75;color:#fff}
+.btn-primary:hover{background:#0F6E56;border-color:#0F6E56}
+.btn-ghost{border-color:transparent;background:transparent}
+.btn-ghost:hover{background:var(--color-background-secondary)}
+.btn-rank{padding:6px 14px;border-radius:var(--border-radius-md);border:0.5px solid #1D9E75;background:transparent;cursor:pointer;font-size:13px;color:#1D9E75;display:inline-flex;align-items:center;gap:5px;font-weight:500}
+.btn-rank:hover{background:#E1F5EE}
+.btn-sm{padding:4px 10px;font-size:12px}
+.btn-danger{color:var(--color-text-danger);border-color:var(--color-border-danger)}
+.btn-danger:hover{background:var(--color-background-danger)}
+.flex{display:flex;gap:8px;align-items:center}
+.flex-1{flex:1}
+.comp-table{width:100%}
+.comp-head{display:grid;grid-template-columns:1fr repeat(5,62px) 74px 40px 34px;gap:6px;padding:0 0 8px;border-bottom:0.5px solid var(--color-border-secondary);margin-bottom:2px}
+.comp-row{display:grid;grid-template-columns:1fr repeat(5,62px) 74px 40px 34px;gap:6px;align-items:center;padding:7px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.comp-row:last-child{border-bottom:none}
+.col-h{font-size:11px;color:var(--color-text-secondary);text-align:center;font-weight:500;text-transform:uppercase;letter-spacing:.04em}
+.score-wrap{position:relative}
+.score-input{width:100%;text-align:center;padding:5px 3px;font-size:13px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary);color:var(--color-text-primary)}
+.score-input:focus{outline:none;border-color:#1D9E75;box-shadow:0 0 0 2px #E1F5EE}
+.score-input.is-default{color:var(--color-text-secondary)}
+.avg-cell{text-align:center;font-size:13px;font-weight:500;padding:5px 6px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);color:var(--color-text-primary)}
+.rank-chip{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;margin:0 auto;border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary);background:var(--color-background-primary)}
+.rank-1{background:#FAC775;border-color:#FAC775;color:#633806}
+.rank-2{background:#D3D1C7;border-color:#D3D1C7;color:#2C2C2A}
+.rank-3{background:#F0997B;border-color:#F0997B;color:#4A1B0C}
+.empty{text-align:center;padding:2.5rem 1rem;color:var(--color-text-secondary);font-size:13px}
+.add-row{display:flex;gap:8px;margin-top:1rem;padding-top:1rem;border-top:0.5px solid var(--color-border-tertiary)}
+.res-row{display:grid;grid-template-columns:44px 1fr 80px;gap:10px;align-items:center;padding:9px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.res-row:last-child{border-bottom:none}
+.mat-badge{display:inline-block;padding:2px 7px;border-radius:10px;background:var(--color-background-secondary);font-size:11px;color:var(--color-text-secondary);margin-left:6px}
+.setup-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:600px){.setup-grid{grid-template-columns:1fr}.comp-head,.comp-row{grid-template-columns:1fr repeat(5,52px) 64px 32px 28px;gap:4px}}
 </style>
 
-<div class="app">
-<h2 class="sr-only">Karate Kata Competition Scoring App</h2>
+<h2 class="sr-only">Karate Kata Competition Scoring App — manage competitors, enter judge scores, and view live rankings across mats and categories.</h2>
 
-<div id="root"></div>
+<div class="shell">
+  <div class="topbar">
+    <div class="topbar-logo">
+      <div class="logo-mark"><i class="ti ti-award" aria-hidden="true"></i></div>
+      Kata scorer
+    </div>
+    <div class="topbar-spacer"></div>
+    <div class="topbar-nav" id="topnav"></div>
+  </div>
+  <div class="main" id="root"></div>
 </div>
 
 <script>
-let state = {
-  view: 'setup',
-  categories: ['Junior Male','Junior Female','Senior Male','Senior Female'],
-  newCategory: '',
-  matCount: 2,
-  mats: {},
-  activeMat: 1,
-  activeCategory: null,
-};
+const DEFAULT_SCORE=7.0,MIN_SCORE=5.0,MAX_SCORE=9.9;
+let state={view:'setup',categories:['Junior Male','Junior Female','Senior Male','Senior Female'],newCat:'',matCount:2,mats:{},activeMat:1,activeCat:null,rankings:{}};
 
-function getMatData(mat, cat) {
-  if (!state.mats[mat]) state.mats[mat] = {};
-  if (!state.mats[mat][cat]) state.mats[mat][cat] = { competitors: [] };
-  return state.mats[mat][cat];
+function matData(m,c){if(!state.mats[m])state.mats[m]={};if(!state.mats[m][c])state.mats[m][c]={competitors:[]};return state.mats[m][c]}
+function rkey(m,c){return m+'||'+c}
+function storedRanks(m,c){return state.rankings[rkey(m,c)]||[]}
+function avg(scores){const v=scores.filter(s=>s!==null&&s!=='');if(!v.length)return null;return(v.reduce((a,b)=>a+parseFloat(b),0)/v.length).toFixed(2)}
+function fullyScored(scores){return scores.filter(s=>s!==null&&s!=='').length===5}
+
+function render(){
+  document.getElementById('topnav').innerHTML=buildNav();
+  document.getElementById('root').innerHTML=state.view==='setup'?buildSetup():state.view==='scoring'?buildScoring():buildResults();
 }
 
-function calcAvg(scores) {
-  const vals = scores.filter(s => s !== '' && s !== null && !isNaN(parseFloat(s)));
-  if (!vals.length) return null;
-  const sum = vals.reduce((a,b) => a + parseFloat(b), 0);
-  return (sum / vals.length).toFixed(2);
+function buildNav(){
+  const tabs=[['setup','ti-settings','Setup'],['scoring','ti-edit','Scoring'],['results','ti-chart-bar','Results']];
+  return tabs.map(([v,ic,label])=>`<button class="nav-btn${state.view===v?' active':''}" onclick="go('${v}')"><i class="ti ${ic}" aria-hidden="true"></i>${label}</button>`).join('');
 }
 
-function getRankedCompetitors(mat, cat) {
-  const data = getMatData(mat, cat);
-  return [...data.competitors]
-    .map((c,i) => ({ ...c, _idx: i, avg: calcAvg(c.scores) }))
-    .sort((a,b) => {
-      if (b.avg === null && a.avg === null) return 0;
-      if (a.avg === null) return 1;
-      if (b.avg === null) return -1;
-      return parseFloat(b.avg) - parseFloat(a.avg);
-    });
+function go(v){
+  if(v==='scoring'&&!state.activeCat)state.activeCat=state.categories[0];
+  state.view=v;render();
 }
 
-function render() {
-  document.getElementById('root').innerHTML = buildHTML();
-  attachEvents();
-}
-
-function buildHTML() {
-  if (state.view === 'setup') return buildSetup();
-  if (state.view === 'scoring') return buildScoring();
-  if (state.view === 'results') return buildResults();
-  return '';
-}
-
-function buildSetup() {
-  const cats = state.categories.map(c => `
-    <span class="category-tag">${c}
-      <button onclick="removeCategory('${c}')" aria-label="Remove ${c}">×</button>
-    </span>`).join('');
-  return `
-    <div class="flex-row" style="margin-bottom:1.25rem;">
-      <div style="flex:1">
-        <h1 style="font-size:20px;font-weight:500;">Kata competition scorer</h1>
-        <p style="font-size:13px;color:var(--color-text-secondary);margin-top:2px;">Set up categories and mats, then begin scoring</p>
-      </div>
-    </div>
-    <div class="card">
+function buildSetup(){
+  const cats=state.categories.map(c=>`<span class="tag">${c}<button onclick="removeCat('${c}')" aria-label="Remove ${c}"><i class="ti ti-x" aria-hidden="true"></i></button></span>`).join('');
+  return`<div class="page-header"><div class="page-title">Competition setup</div><div class="page-sub">Configure categories and mats before the competition begins</div></div>
+  <div class="setup-grid">
+    <div class="card" style="grid-column:1/-1">
       <div class="card-header"><span class="card-title">Categories</span></div>
-      <p class="section-label">Active categories</p>
-      <div style="margin-bottom:1rem;">${cats || '<span style="color:var(--color-text-secondary);font-size:13px;">No categories yet</span>'}</div>
-      <p class="section-label">Add a category</p>
-      <div class="flex-row">
-        <input type="text" id="newCat" placeholder="e.g. Cadet Female" value="${state.newCategory}" class="flex-1" />
-        <button class="btn" onclick="addCategory()"><i class="ti ti-plus" aria-hidden="true"></i> Add</button>
-      </div>
+      <div class="section-label">Active categories</div>
+      <div style="margin-bottom:1rem;min-height:36px">${cats||'<span style="font-size:13px;color:var(--color-text-secondary)">No categories yet</span>'}</div>
+      <div class="section-label">Add a category</div>
+      <div class="flex"><input type="text" id="newCat" placeholder="e.g. Cadet Female" class="flex-1" value="${state.newCat}" onkeydown="if(event.key==='Enter')addCat()" /><button class="btn btn-primary" onclick="addCat()"><i class="ti ti-plus" aria-hidden="true"></i> Add</button></div>
     </div>
-    <div class="card">
+    <div class="card" style="grid-column:1/-1">
       <div class="card-header"><span class="card-title">Mats / rings</span></div>
-      <p class="section-label">Number of simultaneous mats</p>
-      <div class="flex-row" style="margin-bottom:0.5rem;">
-        ${[1,2,3,4,5].map(n => `<button class="mat-btn ${state.matCount===n?'active':''}" onclick="setMatCount(${n})">${n}</button>`).join('')}
-      </div>
-      <p style="font-size:12px;color:var(--color-text-secondary);">${state.matCount} mat${state.matCount>1?'s':''} will run simultaneously</p>
+      <div class="section-label">Simultaneous mats</div>
+      <div class="mat-pills" style="margin-bottom:.5rem">${[1,2,3,4,5].map(n=>`<button class="pill${state.matCount===n?' active':''}" onclick="setMats(${n})">${n} mat${n>1?'s':''}</button>`).join('')}</div>
+      <p style="font-size:12px;color:var(--color-text-secondary)">${state.matCount} mat${state.matCount>1?'s':''} will run in parallel</p>
     </div>
-    <div class="flex-row" style="justify-content:flex-end;">
-      <button class="btn btn-primary" onclick="startScoring()" ${state.categories.length===0?'disabled':''}>
-        Start competition <i class="ti ti-arrow-right" aria-hidden="true"></i>
-      </button>
-    </div>`;
+  </div>
+  <div style="display:flex;justify-content:flex-end;margin-top:.5rem">
+    <button class="btn btn-primary" onclick="go('scoring')" ${state.categories.length===0?'disabled':''}><i class="ti ti-player-play" aria-hidden="true"></i> Start competition</button>
+  </div>`;
 }
 
-function buildScoring() {
-  const mat = state.activeMat;
-  const cat = state.activeCategory || state.categories[0];
-  if (!state.activeCategory) state.activeCategory = cat;
-  const data = getMatData(mat, cat);
-  const ranked = getRankedCompetitors(mat, cat);
-
-  const matTabs = Array.from({length:state.matCount},(_,i)=>i+1).map(m =>
-    `<button class="mat-btn ${mat===m?'active':''}" onclick="setActiveMat(${m})">Mat ${m}</button>`
-  ).join('');
-
-  const catTabs = state.categories.map(c =>
-    `<button class="tab ${cat===c?'active':''}" onclick="setActiveCategory('${c}')">${c}</button>`
-  ).join('');
-
-  const rows = ranked.length ? ranked.map((c,rank) => {
-    const scoreInputs = [0,1,2,3,4].map(j =>
-      `<input type="number" class="score-input" min="50" max="100" step="0.1"
-        value="${c.scores[j]??''}"
-        placeholder="—"
-        onchange="updateScore(${c._idx},${j},this.value)"
-        onblur="validateScore(this)" />`
-    ).join('');
-    const avg = c.avg;
-    const rankBadge = rank < 3 ? `<div class="rank-badge rank-${rank+1}">${rank+1}</div>` : `<div class="rank-badge">${rank+1}</div>`;
-    return `<div class="competitor-row">
-      <span style="font-size:13px;font-weight:500;">${c.name}</span>
-      ${scoreInputs}
-      <div class="avg-badge">${avg??'—'}</div>
-      ${rankBadge}
-    </div>`;
-  }).join('') : `<div class="empty-state">No competitors added yet. Add names below.</div>`;
-
-  return `
-    <div class="flex-row" style="margin-bottom:1rem;">
-      <h1 style="font-size:20px;font-weight:500;flex:1;">Live scoring</h1>
-      <button class="btn btn-sm" onclick="goSetup()"><i class="ti ti-settings" aria-hidden="true"></i> Setup</button>
-      <button class="btn btn-sm btn-primary" onclick="goResults()"><i class="ti ti-chart-bar" aria-hidden="true"></i> Results</button>
-    </div>
-    <div class="mat-selector">${matTabs}</div>
-    <div class="tab-bar">${catTabs}</div>
-    <div class="card">
-      <div class="card-header">
-        <span class="card-title">Mat ${mat} — ${cat}</span>
-        <span style="font-size:12px;color:var(--color-text-secondary);">${data.competitors.length} competitor${data.competitors.length!==1?'s':''}</span>
-      </div>
-      <div class="competitor-header">
-        <span class="col-label" style="text-align:left;">Competitor</span>
-        <span class="col-label">Judge 1</span>
-        <span class="col-label">Judge 2</span>
-        <span class="col-label">Judge 3</span>
-        <span class="col-label">Judge 4</span>
-        <span class="col-label">Judge 5</span>
-        <span class="col-label">Average</span>
-        <span class="col-label">Rank</span>
-      </div>
-      ${rows}
-      <div class="flex-row" style="margin-top:1rem;padding-top:1rem;border-top:0.5px solid var(--color-border-tertiary);">
-        <input type="text" id="newName" placeholder="Competitor name" class="flex-1" onkeydown="if(event.key==='Enter')addCompetitor()" />
-        <button class="btn" onclick="addCompetitor()"><i class="ti ti-plus" aria-hidden="true"></i> Add</button>
-      </div>
-    </div>`;
-}
-
-function buildResults() {
-  const summary = summariseAll();
-  const matCount = state.matCount;
-
-  const tables = state.categories.map(cat => {
-    const rows = [];
-    for (let m = 1; m <= matCount; m++) {
-      const ranked = getRankedCompetitors(m, cat);
-      ranked.forEach((c, rank) => {
-        if (c.avg !== null) rows.push({ name: c.name, avg: c.avg, mat: m, rank: rank+1 });
-      });
-    }
-    rows.sort((a,b) => parseFloat(b.avg)-parseFloat(a.avg));
-    if (!rows.length) return '';
-    const rowsHTML = rows.map((r,i) => {
-      const badge = i<3 ? `<div class="rank-badge rank-${i+1}">${i+1}</div>` : `<div class="rank-badge">${i+1}</div>`;
-      return `<div class="results-row">${badge}<span style="font-size:13px;">${r.name} <span style="color:var(--color-text-secondary);font-size:11px;">Mat ${r.mat}</span></span><span style="font-weight:500;font-size:14px;text-align:right;">${r.avg}</span></div>`;
+function buildScoring(){
+  if(!state.activeCat)state.activeCat=state.categories[0];
+  const m=state.activeMat,c=state.activeCat;
+  const data=matData(m,c);
+  const sr=storedRanks(m,c);
+  const all=data.competitors.map((x,i)=>({...x,_idx:i,av:avg(x.scores)}));
+  let disp=sr.length>0?[...sr.map(i=>all[i]).filter(Boolean),...all.filter(x=>!sr.includes(x._idx))]:all;
+  const total=all.length,fully=all.filter(x=>fullyScored(x.scores)).length;
+  let ti=1;
+  const rows=disp.length?disp.map(c=>{
+    const rank=sr.length>0?sr.indexOf(c._idx):-1;
+    const inputs=[0,1,2,3,4].map(j=>{
+      const val=c.scores[j];const empty=val===null||val==='';const isDef=!empty&&parseFloat(val)===DEFAULT_SCORE;
+      return`<div class="score-wrap"><input type="number" class="score-input${isDef?' is-default':''}" min="${MIN_SCORE}" max="${MAX_SCORE}" step="0.1" value="${empty?'':val}" placeholder="—" tabindex="${ti++}" data-cidx="${c._idx}" data-sidx="${j}" onfocus="onFocus(this,${c._idx},${j})" onchange="onChange(this,${c._idx},${j})" onblur="onBlur(this,${c._idx},${j})" onkeydown="onKey(event,${c._idx},${j})" /></div>`;
     }).join('');
-    return `<div class="card"><div class="card-header"><span class="card-title">${cat}</span><span style="font-size:12px;color:var(--color-text-secondary);">${rows.length} scored</span></div>${rowsHTML}</div>`;
-  }).join('');
+    let chip=rank>=0?(rank<3?`<div class="rank-chip rank-${rank+1}">${rank+1}</div>`:`<div class="rank-chip">${rank+1}</div>`):`<div class="rank-chip" style="font-size:10px">—</div>`;
+    return`<div class="comp-row"><span style="font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.name}</span>${inputs}<div class="avg-cell" id="av-${m}-${esc(state.activeCat)}-${c._idx}">${c.av??'—'}</div>${chip}<button class="btn btn-sm btn-danger btn-ghost" style="padding:4px 6px" onclick="removeCmp(${c._idx})" aria-label="Remove"><i class="ti ti-trash" aria-hidden="true"></i></button></div>`;
+  }).join(''):`<div class="empty"><i class="ti ti-users" style="font-size:32px;opacity:.3;display:block;margin-bottom:8px" aria-hidden="true"></i>No competitors yet — add names below</div>`;
 
-  return `
-    <div class="flex-row" style="margin-bottom:1rem;">
-      <h1 style="font-size:20px;font-weight:500;flex:1;">Results</h1>
-      <button class="btn btn-sm" onclick="goScoring()"><i class="ti ti-edit" aria-hidden="true"></i> Back to scoring</button>
-    </div>
-    <div class="summary-grid">
-      <div class="metric-card"><div class="metric-label">Total competitors</div><div class="metric-value">${summary.total}</div></div>
-      <div class="metric-card"><div class="metric-label">Categories</div><div class="metric-value">${state.categories.length}</div></div>
-      <div class="metric-card"><div class="metric-label">Mats active</div><div class="metric-value">${state.matCount}</div></div>
-    </div>
-    ${tables || '<div class="empty-state">No scores entered yet.</div>'}
-    <div style="margin-top:1rem;text-align:right;">
-      <button class="btn btn-sm" onclick="exportCSV()"><i class="ti ti-download" aria-hidden="true"></i> Export CSV</button>
-    </div>`;
+  return`<div class="page-header"><div class="page-title">Live scoring</div></div>
+  <div class="mat-pills">${Array.from({length:state.matCount},(_,i)=>i+1).map(n=>`<button class="pill${state.activeMat===n?' active':''}" onclick="setActiveMat(${n})"><i class="ti ti-layout-grid" aria-hidden="true"></i> Mat ${n}</button>`).join('')}</div>
+  <div class="cat-tabs">${state.categories.map(cat=>`<button class="cat-tab${state.activeCat===cat?' active':''}" onclick="setActiveCat('${cat}')">${cat}</button>`).join('')}</div>
+  <div class="status-bar">
+    <span class="status-text" id="status-txt"><i class="ti ti-info-circle" aria-hidden="true"></i><span id="status-inner">${fully} of ${total} competitor${total!==1?'s':''} fully scored</span></span>
+    <button class="btn-rank" onclick="updateRanking()"><i class="ti ti-refresh" aria-hidden="true"></i> Update ranking</button>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-title">Mat ${state.activeMat} — ${state.activeCat}</span><span class="card-meta">${total} competitor${total!==1?'s':''}</span></div>
+    <div class="comp-head"><span class="col-h" style="text-align:left">Competitor</span><span class="col-h">Judge 1</span><span class="col-h">Judge 2</span><span class="col-h">Judge 3</span><span class="col-h">Judge 4</span><span class="col-h">Judge 5</span><span class="col-h">Average</span><span class="col-h">Rank</span><span></span></div>
+    <div id="comp-list">${rows}</div>
+    <div class="add-row"><input type="text" id="newName" placeholder="Competitor name" class="flex-1" onkeydown="if(event.key==='Enter')addCmp()" /><button class="btn btn-primary" onclick="addCmp()"><i class="ti ti-plus" aria-hidden="true"></i> Add</button></div>
+  </div>`;
 }
 
-function summariseAll() {
-  let total = 0;
-  for (let m = 1; m <= state.matCount; m++) {
-    state.categories.forEach(cat => {
-      const d = getMatData(m, cat);
-      total += d.competitors.filter(c => c.avg !== undefined || calcAvg(c.scores) !== null).length;
-    });
-  }
-  return { total };
-}
-
-function attachEvents() {}
-
-function addCategory() {
-  const val = document.getElementById('newCat')?.value?.trim();
-  if (val && !state.categories.includes(val)) {
-    state.categories.push(val);
-    state.newCategory = '';
-  }
-  render();
-}
-
-function removeCategory(cat) {
-  state.categories = state.categories.filter(c => c !== cat);
-  if (state.activeCategory === cat) state.activeCategory = state.categories[0] || null;
-  render();
-}
-
-function setMatCount(n) { state.matCount = n; render(); }
-function setActiveMat(m) { state.activeMat = m; render(); }
-function setActiveCategory(c) { state.activeCategory = c; render(); }
-function startScoring() { state.view = 'scoring'; state.activeCategory = state.categories[0]; render(); }
-function goSetup() { state.view = 'setup'; render(); }
-function goResults() { state.view = 'results'; render(); }
-function goScoring() { state.view = 'scoring'; render(); }
-
-function addCompetitor() {
-  const input = document.getElementById('newName');
-  const name = input?.value?.trim();
-  if (!name) return;
-  const data = getMatData(state.activeMat, state.activeCategory);
-  data.competitors.push({ name, scores: ['','','','',''] });
-  render();
-}
-
-function updateScore(idx, scoreIdx, val) {
-  const data = getMatData(state.activeMat, state.activeCategory);
-  const ranked = getRankedCompetitors(state.activeMat, state.activeCategory);
-  const orig = ranked[idx];
-  if (!orig) return;
-  data.competitors[orig._idx].scores[scoreIdx] = val === '' ? '' : val;
-  const sortedDiv = document.querySelector('.competitor-header');
-  if (sortedDiv) {
-    const newRanked = getRankedCompetitors(state.activeMat, state.activeCategory);
-    newRanked.forEach((c, rank) => {
-      const avg = calcAvg(c.scores);
-      const avgCells = document.querySelectorAll('.avg-badge');
-      const rankCells = document.querySelectorAll('.rank-badge');
-    });
-  }
-}
-
-function validateScore(input) {
-  let v = parseFloat(input.value);
-  if (isNaN(v)) { input.value = ''; return; }
-  if (v < 50) v = 50;
-  if (v > 100) v = 100;
-  input.value = v;
-  const data = getMatData(state.activeMat, state.activeCategory);
-  render();
-}
-
-function exportCSV() {
-  let csv = 'Mat,Category,Competitor,J1,J2,J3,J4,J5,Average,Rank\n';
-  state.categories.forEach(cat => {
-    const rows = [];
-    for (let m = 1; m <= state.matCount; m++) {
-      const ranked = getRankedCompetitors(m, cat);
-      ranked.forEach((c, rank) => {
-        rows.push({ ...c, mat: m, overallRank: rank+1 });
-      });
+function buildResults(){
+  const tot=countScored();
+  const tables=state.categories.map(cat=>{
+    const rows=[];
+    for(let m=1;m<=state.matCount;m++){
+      const sr=storedRanks(m,cat);const data=matData(m,cat);
+      const comps=data.competitors.map((c,i)=>({...c,_idx:i,av:avg(c.scores)}));
+      if(sr.length>0){sr.forEach(idx=>{const c=comps[idx];if(c&&c.av!==null)rows.push({name:c.name,av:c.av,mat:m})});comps.filter(c=>!sr.includes(c._idx)&&c.av!==null).forEach(c=>rows.push({name:c.name,av:c.av,mat:m,u:true}))}
+      else{comps.filter(c=>c.av!==null).sort((a,b)=>parseFloat(b.av)-parseFloat(a.av)).forEach(c=>rows.push({name:c.name,av:c.av,mat:m}))}
     }
-    rows.sort((a,b) => parseFloat(b.avg||0)-parseFloat(a.avg||0));
-    rows.forEach((c, i) => {
-      csv += `${c.mat},"${cat}","${c.name}",${c.scores.map(s=>s===''?'':s).join(',')},${c.avg??''},${i+1}\n`;
-    });
-  });
-  const blob = new Blob([csv], {type:'text/csv'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = 'kata_scores.csv'; a.click();
-  URL.revokeObjectURL(url);
+    if(!rows.length)return'';
+    return`<div class="card"><div class="card-header"><span class="card-title">${cat}</span><span class="card-meta">${rows.length} competitors</span></div>${rows.map((r,i)=>{
+      const chip=i<3?`<div class="rank-chip rank-${i+1}">${i+1}</div>`:`<div class="rank-chip">${i+1}</div>`;
+      return`<div class="res-row">${chip}<span style="font-size:13px">${r.name}<span class="mat-badge">Mat ${r.mat}</span>${r.u?'<span style="font-size:11px;color:var(--color-text-secondary)"> · unranked</span>':''}</span><span style="font-weight:500;font-size:14px;text-align:right">${r.av}</span></div>`;
+    }).join('')}</div>`;
+  }).join('');
+  return`<div class="page-header"><div class="page-title">Results</div><div class="page-sub">Ranked by average score within each category</div></div>
+  <div class="metric-grid">
+    <div class="metric"><div class="metric-label">Competitors scored</div><div class="metric-value">${tot}</div></div>
+    <div class="metric"><div class="metric-label">Categories</div><div class="metric-value">${state.categories.length}</div></div>
+    <div class="metric"><div class="metric-label">Active mats</div><div class="metric-value">${state.matCount}</div></div>
+  </div>
+  ${tables||'<div class="empty"><i class="ti ti-chart-bar" style="font-size:32px;opacity:.3;display:block;margin-bottom:8px" aria-hidden="true"></i>No scores entered yet</div>'}
+  <div style="display:flex;justify-content:flex-end;margin-top:.5rem"><button class="btn" onclick="exportCSV()"><i class="ti ti-download" aria-hidden="true"></i> Export CSV</button></div>`;
 }
 
+function esc(s){return(s||'').replace(/\W/g,'_')}
+function countScored(){let t=0;for(let m=1;m<=state.matCount;m++)state.categories.forEach(c=>{t+=matData(m,c).competitors.filter(x=>avg(x.scores)!==null).length});return t}
+
+function onFocus(input,ci,si){
+  const data=matData(state.activeMat,state.activeCat);const c=data.competitors[ci];if(!c)return;
+  if(c.scores[si]===null||c.scores[si]===''){c.scores[si]=DEFAULT_SCORE;input.value=DEFAULT_SCORE.toFixed(1);input.classList.add('is-default')}
+  setTimeout(()=>input.select(),0);
+}
+function onChange(input,ci,si){
+  const data=matData(state.activeMat,state.activeCat);const c=data.competitors[ci];if(!c)return;
+  let v=parseFloat(input.value);if(isNaN(v))v=DEFAULT_SCORE;
+  v=Math.min(MAX_SCORE,Math.max(MIN_SCORE,Math.round(v*10)/10));
+  input.value=v.toFixed(1);c.scores[si]=v;input.classList.toggle('is-default',v===DEFAULT_SCORE);
+  refreshAvg(ci);refreshStatus();
+}
+function onBlur(input,ci,si){
+  const data=matData(state.activeMat,state.activeCat);const c=data.competitors[ci];if(!c)return;
+  let v=parseFloat(input.value);if(isNaN(v)){c.scores[si]=DEFAULT_SCORE;input.value=DEFAULT_SCORE.toFixed(1);input.classList.add('is-default');return}
+  v=Math.min(MAX_SCORE,Math.max(MIN_SCORE,Math.round(v*10)/10));
+  input.value=v.toFixed(1);c.scores[si]=v;input.classList.toggle('is-default',v===DEFAULT_SCORE);
+  refreshAvg(ci);refreshStatus();
+}
+function onKey(event,ci,si){if(event.key==='Enter'){event.preventDefault();focusNext(ci,si)}}
+function focusNext(ci,si){
+  if(si<4){const n=document.querySelector(`input[data-cidx="${ci}"][data-sidx="${si+1}"]`);if(n){n.focus();return}}
+  const n=document.querySelector(`input[data-cidx="${ci+1}"][data-sidx="0"]`);if(n){n.focus();return}
+  document.getElementById('newName')?.focus();
+}
+function refreshAvg(ci){
+  const data=matData(state.activeMat,state.activeCat);const c=data.competitors[ci];if(!c)return;
+  const el=document.getElementById(`av-${state.activeMat}-${esc(state.activeCat)}-${ci}`);
+  if(el)el.textContent=avg(c.scores)??'—';
+}
+function refreshStatus(){
+  const data=matData(state.activeMat,state.activeCat);const t=data.competitors.length;
+  const f=data.competitors.filter(c=>fullyScored(c.scores)).length;
+  const el=document.getElementById('status-inner');if(el)el.textContent=`${f} of ${t} competitor${t!==1?'s':''} fully scored`;
+}
+function updateRanking(){
+  const m=state.activeMat,c=state.activeCat;
+  const data=matData(m,c);
+  const ranked=[...data.competitors].map((x,i)=>({...x,_idx:i,av:avg(x.scores)}))
+    .sort((a,b)=>{if(b.av===null&&a.av===null)return 0;if(a.av===null)return 1;if(b.av===null)return-1;return parseFloat(b.av)-parseFloat(a.av)});
+  state.rankings[rkey(m,c)]=ranked.map(x=>x._idx);render();
+}
+function addCat(){const v=document.getElementById('newCat')?.value?.trim();if(v&&!state.categories.includes(v)){state.categories.push(v);state.newCat=''}render()}
+function removeCat(c){state.categories=state.categories.filter(x=>x!==c);if(state.activeCat===c)state.activeCat=state.categories[0]||null;render()}
+function setMats(n){state.matCount=n;render()}
+function setActiveMat(m){state.activeMat=m;render()}
+function setActiveCat(c){state.activeCat=c;render()}
+function addCmp(){
+  const input=document.getElementById('newName');const name=input?.value?.trim();if(!name)return;
+  const data=matData(state.activeMat,state.activeCat);data.competitors.push({name,scores:[null,null,null,null,null]});render();
+  setTimeout(()=>{const f=document.querySelector(`input[data-cidx="${data.competitors.length-1}"][data-sidx="0"]`);if(f)f.focus()},50);
+}
+function removeCmp(idx){
+  const data=matData(state.activeMat,state.activeCat);data.competitors.splice(idx,1);
+  const k=rkey(state.activeMat,state.activeCat);
+  state.rankings[k]=(state.rankings[k]||[]).filter(i=>i!==idx).map(i=>i>idx?i-1:i);render();
+}
+function exportCSV(){
+  let csv='Mat,Category,Competitor,J1,J2,J3,J4,J5,Average,Rank\n';
+  state.categories.forEach(cat=>{
+    const rows=[];
+    for(let m=1;m<=state.matCount;m++){
+      const sr=storedRanks(m,cat);const data=matData(m,cat);
+      const comps=data.competitors.map((c,i)=>({...c,_idx:i,av:avg(c.scores)}));
+      if(sr.length>0)sr.forEach((idx,rank)=>{const c=comps[idx];if(c)rows.push({...c,mat:m,rank:rank+1})});
+      else comps.filter(c=>c.av!==null).sort((a,b)=>parseFloat(b.av)-parseFloat(a.av)).forEach((c,i)=>rows.push({...c,mat:m,rank:i+1}));
+    }
+    rows.forEach(c=>{csv+=`${c.mat},"${cat}","${c.name}",${c.scores.map(s=>s===null?'':s).join(',')},${c.av??''},${c.rank}\n`});
+  });
+  const blob=new Blob([csv],{type:'text/csv'});const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='kata_scores.csv';a.click();URL.revokeObjectURL(url);
+}
 render();
 </script>

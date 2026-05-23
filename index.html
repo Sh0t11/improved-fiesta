@@ -37,9 +37,6 @@ body{font-family:var(--font);font-size:14px;color:var(--text);background:var(--b
 .metric-label{font-size:12px;color:var(--text2);margin-bottom:4px}
 .metric-value{font-size:26px;font-weight:600;color:var(--text)}
 .section-label{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
-.tag{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg2);font-size:13px;margin:3px;color:var(--text)}
-.tag-remove{background:none;border:none;cursor:pointer;color:var(--text2);font-size:16px;line-height:1;padding:0;display:flex;align-items:center;font-family:var(--font)}
-.tag-remove:hover{color:var(--text)}
 .pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.75rem}
 .pill{padding:5px 14px;border-radius:20px;border:1px solid var(--border2);background:var(--bg);cursor:pointer;font-size:13px;color:var(--text2);font-family:var(--font)}
 .pill:hover{border-color:var(--green);color:var(--green)}
@@ -62,8 +59,11 @@ body{font-family:var(--font);font-size:14px;color:var(--text);background:var(--b
 .btn-danger:hover{background:var(--red-light)}
 .flex{display:flex;gap:8px;align-items:center}
 .flex-1{flex:1}
-input[type=text],input[type=number]{font-family:var(--font);font-size:13px;padding:7px 10px;border:1px solid var(--border2);border-radius:var(--radius);background:var(--bg);color:var(--text);width:100%}
-input[type=text]:focus,input[type=number]:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px var(--green-light)}
+input[type=text],input[type=number],select{font-family:var(--font);font-size:13px;padding:7px 10px;border:1px solid var(--border2);border-radius:var(--radius);background:var(--bg);color:var(--text);width:100%}
+input[type=text]:focus,input[type=number]:focus,select:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px var(--green-light)}
+.cat-list-row{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)}
+.cat-list-row:last-child{border-bottom:none}
+.mat-chip{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:500;background:var(--green-light);color:var(--green);border:1px solid var(--green)}
 .comp-head{display:grid;grid-template-columns:1fr repeat(5,62px) 72px 38px 32px;gap:6px;padding:0 0 8px;border-bottom:1px solid var(--border2);margin-bottom:2px}
 .comp-row{display:grid;grid-template-columns:1fr repeat(5,62px) 72px 38px 32px;gap:6px;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)}
 .comp-row:last-child{border-bottom:none}
@@ -76,21 +76,18 @@ input[type=text]:focus,input[type=number]:focus{outline:none;border-color:var(--
 .rank-1{background:var(--amber-bg);border-color:var(--amber-bg);color:var(--amber-text)}
 .rank-2{background:var(--silver-bg);border-color:var(--silver-bg);color:var(--silver-text)}
 .rank-3{background:var(--bronze-bg);border-color:var(--bronze-bg);color:var(--bronze-text)}
-.empty{text-align:center;padding:2.5rem 1rem;color:var(--text2);font-size:13px}
+.empty{text-align:center;padding:2rem 1rem;color:var(--text2);font-size:13px}
 .add-row{display:flex;gap:8px;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}
 .res-row{display:grid;grid-template-columns:44px 1fr 80px;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--border)}
 .res-row:last-child{border-bottom:none}
 .mat-badge{display:inline-block;padding:2px 7px;border-radius:10px;background:var(--bg2);font-size:11px;color:var(--text2);margin-left:6px;border:1px solid var(--border)}
-.setup-grid{display:grid;grid-template-columns:1fr;gap:1rem}
+.no-cats{padding:2rem;text-align:center;color:var(--text2);font-size:13px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg)}
 </style>
 
 <h2 class="sr-only">Karate Kata Competition Scoring — enter judge scores and view live rankings across mats and categories.</h2>
 <div class="shell">
   <div class="topbar">
-    <div class="logo">
-      <div class="logo-mark">&#127941;</div>
-      Kata scorer
-    </div>
+    <div class="logo"><div class="logo-mark">🏆</div>Kata scorer</div>
     <div class="spacer"></div>
     <div class="topnav" id="topnav"></div>
   </div>
@@ -99,7 +96,21 @@ input[type=text]:focus,input[type=number]:focus{outline:none;border-color:var(--
 
 <script>
 const DEFAULT_SCORE=7.0,MIN_SCORE=5.0,MAX_SCORE=9.9;
-let state={view:'setup',categories:['Junior Male','Junior Female','Senior Male','Senior Female'],matCount:2,mats:{},activeMat:1,activeCat:null,rankings:{}};
+
+let state={
+  view:'setup',
+  categories:[
+    {name:'Junior Male',mat:1},
+    {name:'Junior Female',mat:1},
+    {name:'Senior Male',mat:2},
+    {name:'Senior Female',mat:2}
+  ],
+  matCount:2,
+  mats:{},
+  activeMat:1,
+  activeCat:null,
+  rankings:{}
+};
 
 function matData(m,c){if(!state.mats[m])state.mats[m]={};if(!state.mats[m][c])state.mats[m][c]={competitors:[]};return state.mats[m][c]}
 function rkey(m,c){return m+'||'+c}
@@ -107,6 +118,7 @@ function storedRanks(m,c){return state.rankings[rkey(m,c)]||[]}
 function calcAvg(scores){const v=scores.filter(s=>s!==null&&s!=='');if(!v.length)return null;return(v.reduce((a,b)=>a+parseFloat(b),0)/v.length).toFixed(2)}
 function fullyScored(scores){return scores.filter(s=>s!==null&&s!=='').length===5}
 function esc(s){return(s||'').replace(/\W/g,'_')}
+function catsForMat(m){return state.categories.filter(c=>c.mat===m)}
 
 function render(){
   document.getElementById('topnav').innerHTML=buildNav();
@@ -123,38 +135,75 @@ function buildNav(){
 }
 
 function go(v){
-  if(v==='scoring'&&!state.activeCat)state.activeCat=state.categories[0];
+  if(v==='scoring'){
+    const matCats=catsForMat(state.activeMat);
+    if(!state.activeCat||!matCats.find(c=>c.name===state.activeCat)){
+      state.activeCat=matCats.length?matCats[0].name:null;
+    }
+  }
   state.view=v;render();
 }
 
 function buildSetup(){
-  const cats=state.categories.map(c=>
-    `<span class="tag">${c}<button class="tag-remove" onclick="removeCat('${c.replace(/'/g,"\\'")}')" aria-label="Remove ${c}">×</button></span>`
+  const matOptions=Array.from({length:state.matCount},(_,i)=>
+    `<option value="${i+1}">Mat ${i+1}</option>`
   ).join('');
-  return`<div class="page-header"><div class="page-title">Competition setup</div><div class="page-sub">Configure categories and mats before the competition begins</div></div>
-  <div class="setup-grid">
-    <div class="card">
-      <div class="card-header"><span class="card-title">Categories</span></div>
-      <div class="section-label">Active categories</div>
-      <div style="margin-bottom:1rem;min-height:36px">${cats||'<span style="font-size:13px;color:var(--text2)">No categories yet</span>'}</div>
-      <div class="section-label">Add a category</div>
-      <div class="flex"><input type="text" id="newCat" placeholder="e.g. Cadet Female" class="flex-1" onkeydown="if(event.key==='Enter')addCat()" /><button class="btn btn-primary" onclick="addCat()">+ Add</button></div>
-    </div>
-    <div class="card">
-      <div class="card-header"><span class="card-title">Mats / rings</span></div>
-      <div class="section-label">Simultaneous mats</div>
-      <div class="pills">${[1,2,3,4,5].map(n=>`<button class="pill${state.matCount===n?' active':''}" onclick="setMats(${n})">${n} mat${n>1?'s':''}</button>`).join('')}</div>
-      <p style="font-size:12px;color:var(--text2)">${state.matCount} mat${state.matCount>1?'s':''} will run in parallel</p>
+
+  const catRows=state.categories.map((c,i)=>
+    `<div class="cat-list-row">
+      <span style="font-size:13px;font-weight:500">${c.name}</span>
+      <select style="width:100px" onchange="setCatMat(${i},parseInt(this.value))">${
+        Array.from({length:state.matCount},(_,j)=>
+          `<option value="${j+1}"${c.mat===j+1?' selected':''}>Mat ${j+1}</option>`
+        ).join('')
+      }</select>
+      <button class="btn btn-sm btn-danger" onclick="removeCat(${i})" aria-label="Remove">✕</button>
+    </div>`
+  ).join('');
+
+  return`<div class="page-header"><div class="page-title">Competition setup</div><div class="page-sub">Assign each category to a mat, then start the competition</div></div>
+  <div class="card">
+    <div class="card-header"><span class="card-title">Mats / rings</span></div>
+    <div class="section-label">Number of simultaneous mats</div>
+    <div class="pills">${[1,2,3,4,5].map(n=>`<button class="pill${state.matCount===n?' active':''}" onclick="setMats(${n})">${n} mat${n>1?'s':''}</button>`).join('')}</div>
+  </div>
+  <div class="card">
+    <div class="card-header"><span class="card-title">Categories</span><span class="card-meta">Assign each to a mat</span></div>
+    ${catRows||'<div class="empty">No categories yet</div>'}
+    <div class="add-row">
+      <input type="text" id="newCatName" placeholder="Category name, e.g. Cadet Female" class="flex-1" onkeydown="if(event.key==='Enter')addCat()" />
+      <select id="newCatMat" style="width:100px">${matOptions}</select>
+      <button class="btn btn-primary" onclick="addCat()">+ Add</button>
     </div>
   </div>
-  <div style="display:flex;justify-content:flex-end;margin-top:.5rem">
+  <div style="display:flex;justify-content:flex-end">
     <button class="btn btn-primary" onclick="go('scoring')" ${state.categories.length===0?'disabled':''}>▶ Start competition</button>
   </div>`;
 }
 
 function buildScoring(){
-  if(!state.activeCat)state.activeCat=state.categories[0];
-  const m=state.activeMat,cat=state.activeCat;
+  const m=state.activeMat;
+  const matCats=catsForMat(m);
+
+  if(!state.activeCat||!matCats.find(c=>c.name===state.activeCat)){
+    state.activeCat=matCats.length?matCats[0].name:null;
+  }
+  const cat=state.activeCat;
+
+  const matPills=Array.from({length:state.matCount},(_,i)=>i+1).map(n=>
+    `<button class="pill${m===n?' active':''}" onclick="setActiveMat(${n})">Mat ${n} <span style="font-size:11px;opacity:.7">(${catsForMat(n).length})</span></button>`
+  ).join('');
+
+  const catTabs=matCats.map(c=>
+    `<button class="cat-tab${cat===c.name?' active':''}" onclick="setActiveCat('${c.name.replace(/'/g,"\\'")}')">${c.name}</button>`
+  ).join('');
+
+  if(!cat||!matCats.length){
+    return`<div class="page-header"><div class="page-title">Live scoring</div></div>
+    <div class="pills">${matPills}</div>
+    <div class="no-cats">No categories assigned to Mat ${m}. Go to Setup to assign categories.</div>`;
+  }
+
   const data=matData(m,cat);
   const sr=storedRanks(m,cat);
   const all=data.competitors.map((x,i)=>({...x,_idx:i,av:calcAvg(x.scores)}));
@@ -169,16 +218,8 @@ function buildScoring(){
       return`<input type="number" class="score-input${isDef?' is-default':''}" min="${MIN_SCORE}" max="${MAX_SCORE}" step="0.1" value="${empty?'':val}" placeholder="—" tabindex="${ti++}" data-cidx="${c._idx}" data-sidx="${j}" onfocus="onFocus(this,${c._idx},${j})" onchange="onChange(this,${c._idx},${j})" onblur="onBlur(this,${c._idx},${j})" onkeydown="onKey(event,${c._idx},${j})" />`;
     }).join('');
     const chip=rank>=0?(rank<3?`<div class="rank-chip rank-${rank+1}">${rank+1}</div>`:`<div class="rank-chip">${rank+1}</div>`):`<div class="rank-chip" style="font-size:10px">—</div>`;
-    return`<div class="comp-row"><span style="font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.name}</span>${inputs}<div class="avg-cell" id="av-${m}-${esc(cat)}-${c._idx}">${c.av??'—'}</div>${chip}<button class="btn btn-sm btn-danger" style="padding:4px 7px;border-radius:var(--radius)" onclick="removeCmp(${c._idx})" aria-label="Remove">✕</button></div>`;
-  }).join(''):`<div class="empty" style="padding:2rem;text-align:center;color:var(--text2)">No competitors yet — add names below</div>`;
-
-  const matPills=Array.from({length:state.matCount},(_,i)=>i+1).map(n=>
-    `<button class="pill${state.activeMat===n?' active':''}" onclick="setActiveMat(${n})">Mat ${n}</button>`
-  ).join('');
-
-  const catTabs=state.categories.map(t=>
-    `<button class="cat-tab${state.activeCat===t?' active':''}" onclick="setActiveCat('${t.replace(/'/g,"\\'")}')">${t}</button>`
-  ).join('');
+    return`<div class="comp-row"><span style="font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.name}</span>${inputs}<div class="avg-cell" id="av-${m}-${esc(cat)}-${c._idx}">${c.av??'—'}</div>${chip}<button class="btn btn-sm btn-danger" style="padding:4px 7px" onclick="removeCmp(${c._idx})" aria-label="Remove">✕</button></div>`;
+  }).join(''):`<div class="empty">No competitors yet — add names below</div>`;
 
   return`<div class="page-header"><div class="page-title">Live scoring</div></div>
   <div class="pills">${matPills}</div>
@@ -201,22 +242,23 @@ function buildScoring(){
 
 function buildResults(){
   let total=0;
-  for(let m=1;m<=state.matCount;m++)state.categories.forEach(c=>{total+=matData(m,c).competitors.filter(x=>calcAvg(x.scores)!==null).length});
+  for(let m=1;m<=state.matCount;m++)state.categories.filter(c=>c.mat===m).forEach(c=>{total+=matData(m,c.name).competitors.filter(x=>calcAvg(x.scores)!==null).length});
   const tables=state.categories.map(cat=>{
-    const rows=[];
-    for(let m=1;m<=state.matCount;m++){
-      const sr=storedRanks(m,cat);const data=matData(m,cat);
-      const comps=data.competitors.map((c,i)=>({...c,_idx:i,av:calcAvg(c.scores)}));
-      if(sr.length>0){sr.forEach(idx=>{const c=comps[idx];if(c&&c.av!==null)rows.push({name:c.name,av:c.av,mat:m})});
-        comps.filter(c=>!sr.includes(c._idx)&&c.av!==null).forEach(c=>rows.push({name:c.name,av:c.av,mat:m,u:true}))}
-      else comps.filter(c=>c.av!==null).sort((a,b)=>parseFloat(b.av)-parseFloat(a.av)).forEach(c=>rows.push({name:c.name,av:c.av,mat:m}));
-    }
+    const m=cat.mat;const rows=[];
+    const sr=storedRanks(m,cat.name);const data=matData(m,cat.name);
+    const comps=data.competitors.map((c,i)=>({...c,_idx:i,av:calcAvg(c.scores)}));
+    if(sr.length>0){
+      sr.forEach(idx=>{const c=comps[idx];if(c&&c.av!==null)rows.push({name:c.name,av:c.av,mat:m})});
+      comps.filter(c=>!sr.includes(c._idx)&&c.av!==null).forEach(c=>rows.push({name:c.name,av:c.av,mat:m,u:true}));
+    } else comps.filter(c=>c.av!==null).sort((a,b)=>parseFloat(b.av)-parseFloat(a.av)).forEach(c=>rows.push({name:c.name,av:c.av,mat:m}));
     if(!rows.length)return'';
-    return`<div class="card"><div class="card-header"><span class="card-title">${cat}</span><span class="card-meta">${rows.length} competitor${rows.length!==1?'s':''}</span></div>
-    ${rows.map((r,i)=>{
-      const chip=i<3?`<div class="rank-chip rank-${i+1}">${i+1}</div>`:`<div class="rank-chip">${i+1}</div>`;
-      return`<div class="res-row">${chip}<span style="font-size:13px">${r.name}<span class="mat-badge">Mat ${r.mat}</span>${r.u?'<span style="font-size:11px;color:var(--text2)"> · unranked</span>':''}</span><span style="font-weight:600;font-size:14px;text-align:right">${r.av}</span></div>`;
-    }).join('')}</div>`;
+    return`<div class="card">
+      <div class="card-header"><span class="card-title">${cat.name}</span><span class="card-meta"><span class="mat-badge">Mat ${m}</span> &nbsp;${rows.length} competitor${rows.length!==1?'s':''}</span></div>
+      ${rows.map((r,i)=>{
+        const chip=i<3?`<div class="rank-chip rank-${i+1}">${i+1}</div>`:`<div class="rank-chip">${i+1}</div>`;
+        return`<div class="res-row">${chip}<span style="font-size:13px">${r.name}${r.u?'<span style="font-size:11px;color:var(--text2)"> · unranked</span>':''}</span><span style="font-weight:600;font-size:14px;text-align:right">${r.av}</span></div>`;
+      }).join('')}
+    </div>`;
   }).join('');
   return`<div class="page-header"><div class="page-title">Results</div><div class="page-sub">Ranked by average score within each category</div></div>
   <div class="metric-grid">
@@ -271,10 +313,25 @@ function updateRanking(){
     .sort((a,b)=>{if(b.av===null&&a.av===null)return 0;if(a.av===null)return 1;if(b.av===null)return-1;return parseFloat(b.av)-parseFloat(a.av)});
   state.rankings[rkey(m,c)]=ranked.map(x=>x._idx);render();
 }
-function addCat(){const v=document.getElementById('newCat')?.value?.trim();if(v&&!state.categories.includes(v))state.categories.push(v);render()}
-function removeCat(c){state.categories=state.categories.filter(x=>x!==c);if(state.activeCat===c)state.activeCat=state.categories[0]||null;render()}
-function setMats(n){state.matCount=n;render()}
-function setActiveMat(m){state.activeMat=m;render()}
+function addCat(){
+  const name=document.getElementById('newCatName')?.value?.trim();
+  const mat=parseInt(document.getElementById('newCatMat')?.value||'1');
+  if(name&&!state.categories.find(c=>c.name===name)){state.categories.push({name,mat})}
+  render();
+}
+function removeCat(i){state.categories.splice(i,1);render()}
+function setCatMat(i,m){state.categories[i].mat=m;render()}
+function setMats(n){
+  state.matCount=n;
+  state.categories.forEach(c=>{if(c.mat>n)c.mat=n});
+  render();
+}
+function setActiveMat(m){
+  state.activeMat=m;
+  const matCats=catsForMat(m);
+  state.activeCat=matCats.length?matCats[0].name:null;
+  render();
+}
 function setActiveCat(c){state.activeCat=c;render()}
 function addCmp(){
   const input=document.getElementById('newName');const name=input?.value?.trim();if(!name)return;
@@ -289,14 +346,12 @@ function removeCmp(idx){
 function exportCSV(){
   let csv='Mat,Category,Competitor,J1,J2,J3,J4,J5,Average,Rank\n';
   state.categories.forEach(cat=>{
+    const m=cat.mat;const sr=storedRanks(m,cat.name);const data=matData(m,cat.name);
+    const comps=data.competitors.map((c,i)=>({...c,_idx:i,av:calcAvg(c.scores)}));
     const rows=[];
-    for(let m=1;m<=state.matCount;m++){
-      const sr=storedRanks(m,cat);const data=matData(m,cat);
-      const comps=data.competitors.map((c,i)=>({...c,_idx:i,av:calcAvg(c.scores)}));
-      if(sr.length>0)sr.forEach((idx,rank)=>{const c=comps[idx];if(c)rows.push({...c,mat:m,rank:rank+1})});
-      else comps.filter(c=>c.av!==null).sort((a,b)=>parseFloat(b.av)-parseFloat(a.av)).forEach((c,i)=>rows.push({...c,mat:m,rank:i+1}));
-    }
-    rows.forEach(c=>{csv+=`${c.mat},"${cat}","${c.name}",${c.scores.map(s=>s===null?'':s).join(',')},${c.av??''},${c.rank}\n`});
+    if(sr.length>0)sr.forEach((idx,rank)=>{const c=comps[idx];if(c)rows.push({...c,mat:m,rank:rank+1})});
+    else comps.filter(c=>c.av!==null).sort((a,b)=>parseFloat(b.av)-parseFloat(a.av)).forEach((c,i)=>rows.push({...c,mat:m,rank:i+1}));
+    rows.forEach(c=>{csv+=`${c.mat},"${cat.name}","${c.name}",${c.scores.map(s=>s===null?'':s).join(',')},${c.av??''},${c.rank}\n`});
   });
   const blob=new Blob([csv],{type:'text/csv'});const url=URL.createObjectURL(blob);
   const a=document.createElement('a');a.href=url;a.download='kata_scores.csv';a.click();URL.revokeObjectURL(url);

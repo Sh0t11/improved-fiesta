@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kata Scorer — Master View</title>
+<style>
+:root{
+  --bg:#ffffff;--bg2:#f5f5f4;--bg3:#f0efed;
+  --text:#1a1a1a;--text2:#6b7280;--text3:#9ca3af;
+  --border:#e5e7eb;--border2:#d1d5db;
+  --green:#1D9E75;--green-light:#E1F5EE;--green-dark:#0F6E56;
+  --amber-bg:#FAC775;--amber-text:#633806;
+  --silver-bg:#D3D1C7;--silver-text:#2C2C2A;
+  --bronze-bg:#F0997B;--bronze-text:#4A1B0C;
+  --red:#dc2626;--red-light:#fef2f2;
+  --radius:8px;--radius-lg:12px;
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);font-size:14px;color:var(--text);background:var(--bg3);min-height:100vh}
+.shell{display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:var(--bg);border-bottom:1px solid var(--border);padding:0 1.25rem;display:flex;align-items:center;gap:12px;height:52px;position:sticky;top:0;z-index:10}
+.logo{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px}
+.logo-mark{width:30px;height:30px;border-radius:7px;background:var(--green);display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px}
+.master-badge{padding:3px 10px;border-radius:20px;background:#f0f0ff;border:1px solid #c7c7f0;color:#4040b0;font-size:12px;font-weight:500}
+.spacer{flex:1}
+.sync-badge{display:flex;align-items:center;gap:5px;font-size:12px;padding:4px 10px;border-radius:20px;border:1px solid var(--border);color:var(--text2)}
+.sync-badge.ok{color:var(--green);border-color:var(--green);background:var(--green-light)}
+.sync-badge.err{color:var(--red);border-color:#fca5a5;background:var(--red-light)}
+.main{flex:1;padding:1.5rem 1.25rem;max-width:1100px;width:100%;margin:0 auto}
+.page-header{margin-bottom:1.5rem;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.page-title{font-size:22px;font-weight:600;margin-bottom:3px}
+.page-sub{font-size:13px;color:var(--text2)}
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1.5rem}
+.metric{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem}
+.metric-label{font-size:12px;color:var(--text2);margin-bottom:4px}
+.metric-value{font-size:26px;font-weight:600}
+.mat-section{margin-bottom:2rem}
+.mat-heading{font-size:17px;font-weight:600;margin-bottom:.75rem;display:flex;align-items:center;gap:8px}
+.mat-dot{width:10px;height:10px;border-radius:50%;background:var(--green)}
+.card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:.75rem}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem}
+.card-title{font-size:14px;font-weight:600}
+.card-meta{font-size:12px;color:var(--text2)}
+.res-head{display:grid;grid-template-columns:40px 1fr repeat(5,54px) 72px;gap:6px;padding:0 0 7px;border-bottom:1px solid var(--border2);margin-bottom:2px}
+.res-row{display:grid;grid-template-columns:40px 1fr repeat(5,54px) 72px;gap:6px;align-items:center;padding:6px 0;border-bottom:1px solid var(--border)}
+.res-row:last-child{border-bottom:none}
+.col-h{font-size:10px;color:var(--text2);text-align:center;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.rank-chip{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;border:1px solid var(--border);color:var(--text2);background:var(--bg);margin:0 auto}
+.rank-1{background:var(--amber-bg);border-color:var(--amber-bg);color:var(--amber-text)}
+.rank-2{background:var(--silver-bg);border-color:var(--silver-bg);color:var(--silver-text)}
+.rank-3{background:var(--bronze-bg);border-color:var(--bronze-bg);color:var(--bronze-text)}
+.score-cell{text-align:center;font-size:12px;color:var(--text2)}
+.avg-cell{text-align:center;font-size:13px;font-weight:600;padding:4px;background:var(--bg2);border-radius:var(--radius)}
+.unranked{font-size:11px;color:var(--text2);font-style:italic}
+.empty{text-align:center;padding:1.5rem;color:var(--text2);font-size:13px}
+.btn{padding:7px 14px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--bg);cursor:pointer;font-size:13px;color:var(--text);display:inline-flex;align-items:center;gap:5px;font-family:var(--font)}
+.btn:hover{background:var(--bg2)}
+.btn-primary{background:var(--green);border-color:var(--green);color:#fff}
+.btn-primary:hover{background:var(--green-dark)}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.overlay{position:fixed;inset:0;background:rgba(255,255,255,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;font-size:15px;color:var(--text2);z-index:100}
+.filter-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem;align-items:center}
+.filter-pill{padding:4px 12px;border-radius:20px;border:1px solid var(--border2);background:var(--bg);cursor:pointer;font-size:12px;color:var(--text2);font-family:var(--font)}
+.filter-pill:hover{border-color:var(--green);color:var(--green)}
+.filter-pill.active{background:var(--green);border-color:var(--green);color:#fff}
+@media print{
+  .topbar,.filter-bar,.btn{display:none!important}
+  .shell{background:#fff}
+  .card{break-inside:avoid;border:1px solid #ccc}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="topbar">
+    <div class="logo"><div class="logo-mark">🏆</div>Kata scorer</div>
+    <span class="master-badge">Master view</span>
+    <div class="spacer"></div>
+    <div id="syncbadge" class="sync-badge"><span class="spinner"></span> Connecting…</div>
+  </div>
+  <div class="main" id="root"><div class="overlay"><span class="spinner"></span> Loading…</div></div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC1AzHsaQSrP_CAYJwdE2nMIMBD0anlK-0",
+  authDomain: "kata-scorer-v2.firebaseapp.com",
+  databaseURL: "https://kata-scorer-v2-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "kata-scorer-v2",
+  storageBucket: "kata-scorer-v2.firebasestorage.app",
+  messagingSenderId: "234952309446",
+  appId: "1:234952309446:web:529df642ec8da9d95b35c7"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+let liveData = { config:{ matCount:2, categories:[] }, scores:{}, rankings:{} };
+let filterMat = 0; // 0 = all
+
+onValue(ref(db,'config'), snap=>{ liveData.config=snap.val()||{matCount:2,categories:[]}; if(!liveData.config.categories)liveData.config.categories=[]; setSyncOk(true); render(); }, ()=>setSyncOk(false));
+onValue(ref(db,'scores'), snap=>{ liveData.scores=snap.val()||{}; render(); });
+onValue(ref(db,'rankings'), snap=>{ liveData.rankings=snap.val()||{}; render(); });
+
+function setSyncOk(ok){
+  const el=document.getElementById('syncbadge');
+  if(el){ el.className='sync-badge '+(ok?'ok':'err'); el.innerHTML=ok?'● Live':'⚠ Offline'; }
+}
+
+function fkey(s){ return s.replace(/[.#$\[\]\/]/g,'_'); }
+
+function getCompetitors(m,cat){
+  const raw=liveData.scores?.[`mat${m}`]?.[fkey(cat)]?.competitors;
+  if(!raw) return [];
+  if(Array.isArray(raw)) return raw.filter(x=>x);
+  return Object.keys(raw).sort((a,b)=>a-b).map(k=>raw[k]).filter(x=>x);
+}
+
+function getRankings(m,cat){
+  const r=liveData.rankings?.[`mat${m}`]?.[fkey(cat)];
+  if(!r) return [];
+  if(Array.isArray(r)) return r;
+  return Object.keys(r).sort((a,b)=>a-b).map(k=>r[k]);
+}
+
+function calcAvg(scores){
+  if(!scores) return null;
+  const arr=Array.isArray(scores)?scores:Object.values(scores);
+  const v=arr.filter(s=>s!==null&&s!==undefined&&s!=='');
+  if(!v.length) return null;
+  return (v.reduce((a,b)=>a+parseFloat(b),0)/v.length).toFixed(2);
+}
+
+function getScoreArr(scores){
+  if(!scores) return [null,null,null,null,null];
+  if(Array.isArray(scores)) return scores;
+  return [0,1,2,3,4].map(i=>scores[i]??null);
+}
+
+function render(){
+  const cfg=liveData.config;
+  const matCount=cfg.matCount||2;
+  const cats=cfg.categories||[];
+
+  // Summary metrics
+  let totalComps=0, totalScored=0, totalRanked=0;
+  cats.forEach(cat=>{
+    const comps=getCompetitors(cat.mat,cat.name);
+    totalComps+=comps.length;
+    totalScored+=comps.filter(c=>calcAvg(c.scores)!==null).length;
+    const sr=getRankings(cat.mat,cat.name);
+    if(sr.length>0) totalRanked+=sr.length;
+  });
+
+  const activeMats=[...new Set(cats.map(c=>c.mat))].sort();
+
+  const filterPills=[0,...Array.from({length:matCount},(_,i)=>i+1)].map(n=>
+    `<button class="filter-pill${filterMat===n?' active':''}" onclick="setFilter(${n})">${n===0?'All mats':'Mat '+n}</button>`
+  ).join('');
+
+  // Build mat sections
+  const matSections = Array.from({length:matCount},(_,i)=>i+1).map(m=>{
+    if(filterMat!==0&&filterMat!==m) return '';
+    const matCats=cats.filter(c=>c.mat===m);
+    if(!matCats.length) return '';
+
+    const catCards=matCats.map(cat=>{
+      const comps=getCompetitors(m,cat.name);
+      const sr=getRankings(m,cat.name);
+      const allWithIdx=comps.map((c,i)=>({...c,_idx:i,av:calcAvg(c.scores)}));
+
+      let ranked=[];
+      if(sr.length>0){
+        ranked=[...sr.map(i=>allWithIdx[i]).filter(Boolean),...allWithIdx.filter(x=>!sr.includes(x._idx))];
+      } else {
+        ranked=[...allWithIdx].sort((a,b)=>{
+          if(b.av===null&&a.av===null) return 0;
+          if(a.av===null) return 1; if(b.av===null) return -1;
+          return parseFloat(b.av)-parseFloat(a.av);
+        });
+      }
+
+      if(!ranked.length) return `<div class="card"><div class="card-header"><span class="card-title">${cat.name}</span><span class="card-meta">No competitors</span></div><div class="empty">No competitors entered yet</div></div>`;
+
+      const rows=ranked.map((c,i)=>{
+        const isRanked=sr.length>0&&sr.includes(c._idx);
+        const rankPos=sr.length>0?sr.indexOf(c._idx):i;
+        const chip=rankPos>=0&&(sr.length>0?isRanked:true)
+          ?(rankPos<3?`<div class="rank-chip rank-${rankPos+1}">${rankPos+1}</div>`:`<div class="rank-chip">${rankPos+1}</div>`)
+          :`<div class="rank-chip" style="font-size:10px">—</div>`;
+        const sa=getScoreArr(c.scores);
+        const scoreCells=[0,1,2,3,4].map(j=>`<div class="score-cell">${sa[j]!==null&&sa[j]!==undefined&&sa[j]!==''?parseFloat(sa[j]).toFixed(1):'—'}</div>`).join('');
+        const notRanked=sr.length>0&&!isRanked?'<span class="unranked"> · pending</span>':'';
+        return `<div class="res-row">${chip}<span style="font-size:13px;font-weight:500">${c.name}${notRanked}</span>${scoreCells}<div class="avg-cell">${c.av??'—'}</div></div>`;
+      }).join('');
+
+      const scoredCount=allWithIdx.filter(c=>c.av!==null).length;
+      return `<div class="card">
+        <div class="card-header"><span class="card-title">${cat.name}</span><span class="card-meta">${scoredCount}/${comps.length} scored${sr.length>0?' · ranked':' · ranking pending'}</span></div>
+        <div class="res-head">
+          <span class="col-h">Rank</span><span class="col-h" style="text-align:left">Competitor</span>
+          <span class="col-h">J1</span><span class="col-h">J2</span><span class="col-h">J3</span><span class="col-h">J4</span><span class="col-h">J5</span>
+          <span class="col-h">Average</span>
+        </div>
+        ${rows}
+      </div>`;
+    }).join('');
+
+    return `<div class="mat-section">
+      <div class="mat-heading"><div class="mat-dot"></div>Mat ${m}</div>
+      ${catCards}
+    </div>`;
+  }).join('');
+
+  document.getElementById('root').innerHTML=`
+    <div class="page-header">
+      <div><div class="page-title">Master results view</div><div class="page-sub">Live — updates automatically as scores are entered</div></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn" onclick="exportCSV()">⬇ Export CSV</button>
+        <button class="btn btn-primary" onclick="window.print()">🖨 Print</button>
+      </div>
+    </div>
+    <div class="metric-grid">
+      <div class="metric"><div class="metric-label">Total competitors</div><div class="metric-value">${totalComps}</div></div>
+      <div class="metric"><div class="metric-label">Fully scored</div><div class="metric-value">${totalScored}</div></div>
+      <div class="metric"><div class="metric-label">Categories</div><div class="metric-value">${cats.length}</div></div>
+      <div class="metric"><div class="metric-label">Active mats</div><div class="metric-value">${matCount}</div></div>
+    </div>
+    <div class="filter-bar"><span style="font-size:12px;color:var(--text2);margin-right:4px">Filter:</span>${filterPills}</div>
+    ${matSections||'<div class="empty">No data yet — set up categories in the scoring app first</div>'}
+  `;
+}
+
+window.setFilter=function(m){ filterMat=m; render(); };
+
+window.exportCSV=function(){
+  const cfg=liveData.config; const cats=cfg.categories||[];
+  let csv='Mat,Category,Rank,Competitor,J1,J2,J3,J4,J5,Average\n';
+  cats.forEach(cat=>{
+    const comps=getCompetitors(cat.mat,cat.name);
+    const sr=getRankings(cat.mat,cat.name);
+    const allWithIdx=comps.map((c,i)=>({...c,_idx:i,av:calcAvg(c.scores)}));
+    let ranked=sr.length>0
+      ?[...sr.map(i=>allWithIdx[i]).filter(Boolean),...allWithIdx.filter(x=>!sr.includes(x._idx))]
+      :[...allWithIdx].sort((a,b)=>{if(b.av===null&&a.av===null)return 0;if(a.av===null)return 1;if(b.av===null)return-1;return parseFloat(b.av)-parseFloat(a.av)});
+    ranked.forEach((c,i)=>{
+      const sa=getScoreArr(c.scores);
+      const rankPos=sr.length>0?sr.indexOf(c._idx)+1:i+1;
+      csv+=`${cat.mat},"${cat.name}",${rankPos},"${c.name}",${sa.map(s=>s!==null&&s!==undefined&&s!==''?parseFloat(s).toFixed(1):'').join(',')},${c.av??''}\n`;
+    });
+  });
+  const blob=new Blob([csv],{type:'text/csv'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='kata_results.csv';a.click();
+  URL.revokeObjectURL(url);
+};
+</script>
+</body>
+</html>

@@ -20,12 +20,12 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font);font-size:14px;color:var(--text);background:var(--bg3);min-height:100vh}
 .shell{display:flex;flex-direction:column;min-height:100vh}
-.topbar{background:var(--bg);border-bottom:1px solid var(--border);padding:0 1.25rem;display:flex;align-items:center;gap:12px;height:52px;position:sticky;top:0;z-index:10}
+.topbar{background:var(--bg);border-bottom:1px solid var(--border);padding:0 1.25rem;display:flex;align-items:center;gap:10px;height:52px;position:sticky;top:0;z-index:10}
 .logo{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px}
 .logo-mark{width:30px;height:30px;border-radius:7px;background:var(--green);display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px}
-.master-badge{padding:3px 10px;border-radius:20px;background:#f0f0ff;border:1px solid #c7c7f0;color:#4040b0;font-size:12px;font-weight:500}
+.master-badge{padding:3px 10px;border-radius:20px;background:#f0f0ff;border:1px solid #c7c7f0;color:#4040b0;font-size:12px;font-weight:500;white-space:nowrap}
 .spacer{flex:1}
-.sync-badge{display:flex;align-items:center;gap:5px;font-size:12px;padding:4px 10px;border-radius:20px;border:1px solid var(--border);color:var(--text2)}
+.sync-badge{display:flex;align-items:center;gap:5px;font-size:12px;padding:4px 10px;border-radius:20px;border:1px solid var(--border);color:var(--text2);white-space:nowrap}
 .sync-badge.ok{color:var(--green);border-color:var(--green);background:var(--green-light)}
 .sync-badge.err{color:var(--red);border-color:#fca5a5;background:var(--red-light)}
 .main{flex:1;padding:1.5rem 1.25rem;max-width:1100px;width:100%;margin:0 auto}
@@ -36,6 +36,16 @@ body{font-family:var(--font);font-size:14px;color:var(--text);background:var(--b
 .metric{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem}
 .metric-label{font-size:12px;color:var(--text2);margin-bottom:4px}
 .metric-value{font-size:26px;font-weight:600}
+.comp-selector{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.comp-selector label{font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.comp-selector select{flex:1;min-width:200px;font-family:var(--font);font-size:13px;padding:7px 10px;border:1px solid var(--border2);border-radius:var(--radius);background:var(--bg);color:var(--text)}
+.comp-selector select:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px var(--green-light)}
+.comp-info{font-size:12px;color:var(--text2);display:flex;gap:12px;flex-wrap:wrap}
+.comp-info span{display:flex;align-items:center;gap:4px}
+.live-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;background:var(--green-light);border:1px solid var(--green);color:var(--green);font-size:12px;font-weight:500}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 1.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.archived-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;background:var(--bg2);border:1px solid var(--border);color:var(--text2);font-size:12px}
 .mat-section{margin-bottom:2rem}
 .mat-heading{font-size:17px;font-weight:600;margin-bottom:.75rem;display:flex;align-items:center;gap:8px}
 .mat-dot{width:10px;height:10px;border-radius:50%;background:var(--green)}
@@ -53,21 +63,20 @@ body{font-family:var(--font);font-size:14px;color:var(--text);background:var(--b
 .rank-3{background:var(--bronze-bg);border-color:var(--bronze-bg);color:var(--bronze-text)}
 .score-cell{text-align:center;font-size:12px;color:var(--text2)}
 .avg-cell{text-align:center;font-size:13px;font-weight:600;padding:4px;background:var(--bg2);border-radius:var(--radius)}
-.unranked{font-size:11px;color:var(--text2);font-style:italic}
 .empty{text-align:center;padding:1.5rem;color:var(--text2);font-size:13px}
 .btn{padding:7px 14px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--bg);cursor:pointer;font-size:13px;color:var(--text);display:inline-flex;align-items:center;gap:5px;font-family:var(--font)}
 .btn:hover{background:var(--bg2)}
 .btn-primary{background:var(--green);border-color:var(--green);color:#fff}
 .btn-primary:hover{background:var(--green-dark)}
-.spinner{display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;animation:spin .6s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.overlay{position:fixed;inset:0;background:rgba(255,255,255,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;font-size:15px;color:var(--text2);z-index:100}
 .filter-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem;align-items:center}
 .filter-pill{padding:4px 12px;border-radius:20px;border:1px solid var(--border2);background:var(--bg);cursor:pointer;font-size:12px;color:var(--text2);font-family:var(--font)}
 .filter-pill:hover{border-color:var(--green);color:var(--green)}
 .filter-pill.active{background:var(--green);border-color:var(--green);color:#fff}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.overlay{position:fixed;inset:0;background:rgba(255,255,255,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;font-size:15px;color:var(--text2);z-index:100}
 @media print{
-  .topbar,.filter-bar,.btn{display:none!important}
+  .topbar,.filter-bar,.btn,.comp-selector{display:none!important}
   .shell{background:#fff}
   .card{break-inside:avoid;border:1px solid #ccc}
 }
@@ -101,29 +110,50 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-let liveData = { config:{ matCount:2, categories:[] }, scores:{}, rankings:{} };
-let filterMat = 0; // 0 = all
-
-onValue(ref(db,'config'), snap=>{ liveData.config=snap.val()||{matCount:2,categories:[]}; if(!liveData.config.categories)liveData.config.categories=[]; setSyncOk(true); render(); }, ()=>setSyncOk(false));
-onValue(ref(db,'scores'), snap=>{ liveData.scores=snap.val()||{}; render(); });
-onValue(ref(db,'rankings'), snap=>{ liveData.rankings=snap.val()||{}; render(); });
+let allComps = {};       // id -> competition object
+let activeCompId = null;
+let viewingCompId = null; // which comp is shown in master view
+let filterMat = 0;
 
 function setSyncOk(ok){
   const el=document.getElementById('syncbadge');
-  if(el){ el.className='sync-badge '+(ok?'ok':'err'); el.innerHTML=ok?'● Live':'⚠ Offline'; }
+  if(el){el.className='sync-badge '+(ok?'ok':'err');el.innerHTML=ok?'● Live':'⚠ Offline';}
 }
 
-function fkey(s){ return s.replace(/[.#$\[\]\/]/g,'_'); }
+// Load all competitions
+onValue(ref(db,'competitions'), snap => {
+  setSyncOk(true);
+  allComps = snap.val()||{};
+  // If viewing comp not set yet, default to active
+  if(!viewingCompId && activeCompId) viewingCompId = activeCompId;
+  if(!viewingCompId){
+    // pick most recent
+    const ids = Object.keys(allComps).sort((a,b)=>(allComps[b].createdAt||0)-(allComps[a].createdAt||0));
+    if(ids.length) viewingCompId = ids[0];
+  }
+  render();
+}, ()=>setSyncOk(false));
 
-function getCompetitors(m,cat){
-  const raw=liveData.scores?.[`mat${m}`]?.[fkey(cat)]?.competitors;
+onValue(ref(db,'activeCompId'), snap => {
+  activeCompId = snap.val();
+  if(!viewingCompId && activeCompId) viewingCompId = activeCompId;
+  render();
+});
+
+// ── Helpers ───────────────────────────────────────────────────────
+function fkey(s){ return (s||'').replace(/[.#$\[\]\/]/g,'_'); }
+
+function getComp(){ return viewingCompId ? allComps[viewingCompId] : null; }
+
+function getCompetitors(comp,m,cat){
+  const raw=comp?.scores?.[`mat${m}`]?.[fkey(cat)]?.competitors;
   if(!raw) return [];
   if(Array.isArray(raw)) return raw.filter(x=>x);
   return Object.keys(raw).sort((a,b)=>a-b).map(k=>raw[k]).filter(x=>x);
 }
 
-function getRankings(m,cat){
-  const r=liveData.rankings?.[`mat${m}`]?.[fkey(cat)];
+function getRankings(comp,m,cat){
+  const r=comp?.rankings?.[`mat${m}`]?.[fkey(cat)];
   if(!r) return [];
   if(Array.isArray(r)) return r;
   return Object.keys(r).sort((a,b)=>a-b).map(k=>r[k]);
@@ -143,45 +173,85 @@ function getScoreArr(scores){
   return [0,1,2,3,4].map(i=>scores[i]??null);
 }
 
-function render(){
-  const cfg=liveData.config;
-  const matCount=cfg.matCount||2;
-  const cats=cfg.categories||[];
+function formatDate(d){
+  if(!d) return '';
+  const [y,m,day]=d.split('-');
+  return `${day}/${m}/${y}`;
+}
 
-  // Summary metrics
-  let totalComps=0, totalScored=0, totalRanked=0;
+// ── Render ────────────────────────────────────────────────────────
+function render(){
+  const compIds = Object.keys(allComps).sort((a,b)=>(allComps[b].createdAt||0)-(allComps[a].createdAt||0));
+  const comp = getComp();
+
+  if(!comp && !compIds.length){
+    document.getElementById('root').innerHTML=`<div class="empty" style="margin-top:4rem">No competitions recorded yet.<br>Create one in the scoring app.</div>`;
+    return;
+  }
+
+  // Competition selector
+  const isLive = viewingCompId === activeCompId;
+  const statusPill = isLive
+    ? `<span class="live-pill"><span class="live-dot"></span>Live</span>`
+    : `<span class="archived-pill">📁 Archived</span>`;
+
+  const compOptions = compIds.map(id=>{
+    const c=allComps[id];
+    const live=id===activeCompId?' (Live)':'';
+    return `<option value="${id}"${id===viewingCompId?' selected':''}>${c.name} — ${formatDate(c.date)}${live}</option>`;
+  }).join('');
+
+  const compSelector=`<div class="comp-selector">
+    <label>Competition</label>
+    <select onchange="switchComp(this.value)">${compOptions}</select>
+    ${statusPill}
+    ${comp?`<div class="comp-info">
+      <span>📅 ${formatDate(comp.date)}</span>
+      <span>📍 ${comp.location}</span>
+    </div>`:''}
+  </div>`;
+
+  if(!comp){
+    document.getElementById('root').innerHTML=`
+      <div class="page-header"><div><div class="page-title">Master results view</div></div></div>
+      ${compSelector}
+      <div class="empty">Select a competition above.</div>`;
+    return;
+  }
+
+  const cats = comp.config?.categories||[];
+  const mc = comp.config?.matCount||2;
+
+  // Metrics
+  let totalComps=0,totalScored=0;
   cats.forEach(cat=>{
-    const comps=getCompetitors(cat.mat,cat.name);
+    const comps=getCompetitors(comp,cat.mat,cat.name);
     totalComps+=comps.length;
     totalScored+=comps.filter(c=>calcAvg(c.scores)!==null).length;
-    const sr=getRankings(cat.mat,cat.name);
-    if(sr.length>0) totalRanked+=sr.length;
   });
 
-  const activeMats=[...new Set(cats.map(c=>c.mat))].sort();
-
-  const filterPills=[0,...Array.from({length:matCount},(_,i)=>i+1)].map(n=>
+  const filterPills=[0,...Array.from({length:mc},(_,i)=>i+1)].map(n=>
     `<button class="filter-pill${filterMat===n?' active':''}" onclick="setFilter(${n})">${n===0?'All mats':'Mat '+n}</button>`
   ).join('');
 
-  // Build mat sections
-  const matSections = Array.from({length:matCount},(_,i)=>i+1).map(m=>{
+  // Mat sections
+  const matSections=Array.from({length:mc},(_,i)=>i+1).map(m=>{
     if(filterMat!==0&&filterMat!==m) return '';
     const matCats=cats.filter(c=>c.mat===m);
     if(!matCats.length) return '';
 
     const catCards=matCats.map(cat=>{
-      const comps=getCompetitors(m,cat.name);
-      const sr=getRankings(m,cat.name);
+      const comps=getCompetitors(comp,m,cat.name);
+      const sr=getRankings(comp,m,cat.name);
       const allWithIdx=comps.map((c,i)=>({...c,_idx:i,av:calcAvg(c.scores)}));
 
-      let ranked=[];
+      let ranked;
       if(sr.length>0){
         ranked=[...sr.map(i=>allWithIdx[i]).filter(Boolean),...allWithIdx.filter(x=>!sr.includes(x._idx))];
       } else {
         ranked=[...allWithIdx].sort((a,b)=>{
-          if(b.av===null&&a.av===null) return 0;
-          if(a.av===null) return 1; if(b.av===null) return -1;
+          if(b.av===null&&a.av===null)return 0;
+          if(a.av===null)return 1;if(b.av===null)return-1;
           return parseFloat(b.av)-parseFloat(a.av);
         });
       }
@@ -190,19 +260,22 @@ function render(){
 
       const rows=ranked.map((c,i)=>{
         const isRanked=sr.length>0&&sr.includes(c._idx);
-        const rankPos=sr.length>0?sr.indexOf(c._idx):i;
-        const chip=rankPos>=0&&(sr.length>0?isRanked:true)
+        const rankPos=sr.length>0?(isRanked?sr.indexOf(c._idx):-1):i;
+        const chip=(rankPos>=0)
           ?(rankPos<3?`<div class="rank-chip rank-${rankPos+1}">${rankPos+1}</div>`:`<div class="rank-chip">${rankPos+1}</div>`)
           :`<div class="rank-chip" style="font-size:10px">—</div>`;
         const sa=getScoreArr(c.scores);
         const scoreCells=[0,1,2,3,4].map(j=>`<div class="score-cell">${sa[j]!==null&&sa[j]!==undefined&&sa[j]!==''?parseFloat(sa[j]).toFixed(1):'—'}</div>`).join('');
-        const notRanked=sr.length>0&&!isRanked?'<span class="unranked"> · pending</span>':'';
-        return `<div class="res-row">${chip}<span style="font-size:13px;font-weight:500">${c.name}${notRanked}</span>${scoreCells}<div class="avg-cell">${c.av??'—'}</div></div>`;
+        const pending=sr.length>0&&!isRanked?'<span style="font-size:11px;color:var(--text2);font-style:italic"> · pending</span>':'';
+        return `<div class="res-row">${chip}<span style="font-size:13px;font-weight:500">${c.name}${pending}</span>${scoreCells}<div class="avg-cell">${c.av??'—'}</div></div>`;
       }).join('');
 
       const scoredCount=allWithIdx.filter(c=>c.av!==null).length;
       return `<div class="card">
-        <div class="card-header"><span class="card-title">${cat.name}</span><span class="card-meta">${scoredCount}/${comps.length} scored${sr.length>0?' · ranked':' · ranking pending'}</span></div>
+        <div class="card-header">
+          <span class="card-title">${cat.name}</span>
+          <span class="card-meta">${scoredCount}/${comps.length} scored${sr.length>0?' · ranked':' · ranking pending'}</span>
+        </div>
         <div class="res-head">
           <span class="col-h">Rank</span><span class="col-h" style="text-align:left">Competitor</span>
           <span class="col-h">J1</span><span class="col-h">J2</span><span class="col-h">J3</span><span class="col-h">J4</span><span class="col-h">J5</span>
@@ -220,33 +293,36 @@ function render(){
 
   document.getElementById('root').innerHTML=`
     <div class="page-header">
-      <div><div class="page-title">Master results view</div><div class="page-sub">Live — updates automatically as scores are entered</div></div>
+      <div><div class="page-title">Master results view</div><div class="page-sub">${isLive?'Live — updates automatically as scores are entered':'Archived competition — read only'}</div></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         <button class="btn" onclick="exportCSV()">⬇ Export CSV</button>
         <button class="btn btn-primary" onclick="window.print()">🖨 Print</button>
       </div>
     </div>
+    ${compSelector}
     <div class="metric-grid">
-      <div class="metric"><div class="metric-label">Total competitors</div><div class="metric-value">${totalComps}</div></div>
+      <div class="metric"><div class="metric-label">Competitors</div><div class="metric-value">${totalComps}</div></div>
       <div class="metric"><div class="metric-label">Fully scored</div><div class="metric-value">${totalScored}</div></div>
       <div class="metric"><div class="metric-label">Categories</div><div class="metric-value">${cats.length}</div></div>
-      <div class="metric"><div class="metric-label">Active mats</div><div class="metric-value">${matCount}</div></div>
+      <div class="metric"><div class="metric-label">Mats</div><div class="metric-value">${mc}</div></div>
     </div>
     <div class="filter-bar"><span style="font-size:12px;color:var(--text2);margin-right:4px">Filter:</span>${filterPills}</div>
-    ${matSections||'<div class="empty">No data yet — set up categories in the scoring app first</div>'}
-  `;
+    ${matSections||'<div class="empty">No data yet</div>'}`;
 }
 
+window.switchComp=function(id){ viewingCompId=id; filterMat=0; render(); };
 window.setFilter=function(m){ filterMat=m; render(); };
 
 window.exportCSV=function(){
-  const cfg=liveData.config; const cats=cfg.categories||[];
-  let csv='Mat,Category,Rank,Competitor,J1,J2,J3,J4,J5,Average\n';
+  const comp=getComp(); if(!comp) return;
+  const cats=comp.config?.categories||[];
+  let csv=`Competition,${comp.name}\nDate,${formatDate(comp.date)}\nLocation,${comp.location}\n\n`;
+  csv+='Mat,Category,Rank,Competitor,J1,J2,J3,J4,J5,Average\n';
   cats.forEach(cat=>{
-    const comps=getCompetitors(cat.mat,cat.name);
-    const sr=getRankings(cat.mat,cat.name);
+    const comps=getCompetitors(comp,cat.mat,cat.name);
+    const sr=getRankings(comp,cat.mat,cat.name);
     const allWithIdx=comps.map((c,i)=>({...c,_idx:i,av:calcAvg(c.scores)}));
-    let ranked=sr.length>0
+    const ranked=sr.length>0
       ?[...sr.map(i=>allWithIdx[i]).filter(Boolean),...allWithIdx.filter(x=>!sr.includes(x._idx))]
       :[...allWithIdx].sort((a,b)=>{if(b.av===null&&a.av===null)return 0;if(a.av===null)return 1;if(b.av===null)return-1;return parseFloat(b.av)-parseFloat(a.av)});
     ranked.forEach((c,i)=>{
@@ -257,7 +333,7 @@ window.exportCSV=function(){
   });
   const blob=new Blob([csv],{type:'text/csv'});
   const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download='kata_results.csv';a.click();
+  const a=document.createElement('a');a.href=url;a.download=`kata_results_${comp.date||'export'}.csv`;a.click();
   URL.revokeObjectURL(url);
 };
 </script>

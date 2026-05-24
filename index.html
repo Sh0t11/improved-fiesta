@@ -20,15 +20,16 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font);font-size:14px;color:var(--text);background:var(--bg3);min-height:100vh}
 .shell{display:flex;flex-direction:column;min-height:100vh}
-.topbar{background:var(--bg);border-bottom:1px solid var(--border);padding:0 1.25rem;display:flex;align-items:center;gap:12px;height:52px;position:sticky;top:0;z-index:10}
-.logo{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px;color:var(--text)}
-.logo-mark{width:30px;height:30px;border-radius:7px;background:var(--green);display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px}
+.topbar{background:var(--bg);border-bottom:1px solid var(--border);padding:0 1.25rem;display:flex;align-items:center;gap:10px;height:52px;position:sticky;top:0;z-index:10;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px;color:var(--text);white-space:nowrap}
+.logo-mark{width:30px;height:30px;border-radius:7px;background:var(--green);display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;flex-shrink:0}
+.event-name{font-size:12px;color:var(--text2);padding:3px 10px;background:var(--bg2);border-radius:20px;border:1px solid var(--border);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px}
 .spacer{flex:1}
-.sync-badge{display:flex;align-items:center;gap:5px;font-size:12px;padding:4px 10px;border-radius:20px;border:1px solid var(--border);color:var(--text2)}
+.sync-badge{display:flex;align-items:center;gap:5px;font-size:12px;padding:4px 10px;border-radius:20px;border:1px solid var(--border);color:var(--text2);white-space:nowrap}
 .sync-badge.ok{color:var(--green);border-color:var(--green);background:var(--green-light)}
 .sync-badge.err{color:var(--red);border-color:#fca5a5;background:var(--red-light)}
 .topnav{display:flex;gap:2px}
-.nav-btn{padding:6px 12px;border-radius:var(--radius);border:none;background:transparent;cursor:pointer;font-size:13px;color:var(--text2);font-family:var(--font)}
+.nav-btn{padding:6px 12px;border-radius:var(--radius);border:none;background:transparent;cursor:pointer;font-size:13px;color:var(--text2);font-family:var(--font);white-space:nowrap}
 .nav-btn:hover{background:var(--bg2);color:var(--text)}
 .nav-btn.active{background:var(--bg2);color:var(--text);font-weight:500}
 .main{flex:1;padding:1.5rem 1.25rem;max-width:960px;width:100%;margin:0 auto}
@@ -55,15 +56,17 @@ body{font-family:var(--font);font-size:14px;color:var(--text);background:var(--b
 .btn-primary{background:var(--green);border-color:var(--green);color:#fff}
 .btn-primary:hover{background:var(--green-dark);border-color:var(--green-dark)}
 .btn-primary:disabled{opacity:.4;cursor:not-allowed}
+.btn-danger{color:var(--red);border-color:#fca5a5}
+.btn-danger:hover{background:var(--red-light)}
+.btn-warning{color:#b45309;border-color:#fcd34d;background:#fffbeb}
+.btn-warning:hover{background:#fef3c7}
 .btn-rank{padding:7px 14px;border-radius:var(--radius);border:1px solid var(--green);background:var(--green-light);cursor:pointer;font-size:13px;color:var(--green);display:inline-flex;align-items:center;gap:5px;font-weight:500;font-family:var(--font)}
 .btn-rank:hover{background:var(--green);color:#fff}
 .btn-sm{padding:4px 10px;font-size:12px}
-.btn-danger{color:var(--red);border-color:#fca5a5}
-.btn-danger:hover{background:var(--red-light)}
 .flex{display:flex;gap:8px;align-items:center}
 .flex-1{flex:1}
-input[type=text],input[type=number],select{font-family:var(--font);font-size:13px;padding:7px 10px;border:1px solid var(--border2);border-radius:var(--radius);background:var(--bg);color:var(--text);width:100%}
-input[type=text]:focus,input[type=number]:focus,select:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px var(--green-light)}
+input[type=text],input[type=number],input[type=date],select{font-family:var(--font);font-size:13px;padding:7px 10px;border:1px solid var(--border2);border-radius:var(--radius);background:var(--bg);color:var(--text);width:100%}
+input:focus,select:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px var(--green-light)}
 .cat-list-row{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)}
 .cat-list-row:last-child{border-bottom:none}
 .comp-head{display:grid;grid-template-columns:1fr repeat(5,62px) 72px 38px 32px;gap:6px;padding:0 0 8px;border-bottom:1px solid var(--border2);margin-bottom:2px}
@@ -73,7 +76,7 @@ input[type=text]:focus,input[type=number]:focus,select:focus{outline:none;border
 .score-input{width:100%;text-align:center;padding:5px 3px;font-size:13px;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg);color:var(--text);font-family:var(--font)}
 .score-input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 2px var(--green-light)}
 .score-input.is-default{color:var(--text2)}
-.avg-cell{text-align:center;font-size:13px;font-weight:600;padding:5px 4px;background:var(--bg2);border-radius:var(--radius);color:var(--text)}
+.avg-cell{text-align:center;font-size:13px;font-weight:600;padding:5px 4px;background:var(--bg2);border-radius:var(--radius)}
 .rank-chip{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;margin:0 auto;border:1px solid var(--border);color:var(--text2);background:var(--bg)}
 .rank-1{background:var(--amber-bg);border-color:var(--amber-bg);color:var(--amber-text)}
 .rank-2{background:var(--silver-bg);border-color:var(--silver-bg);color:var(--silver-text)}
@@ -81,26 +84,37 @@ input[type=text]:focus,input[type=number]:focus,select:focus{outline:none;border
 .empty{text-align:center;padding:2rem 1rem;color:var(--text2);font-size:13px}
 .add-row{display:flex;gap:8px;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}
 .no-cats{padding:2rem;text-align:center;color:var(--text2);font-size:13px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg)}
-.mat-badge{display:inline-block;padding:2px 7px;border-radius:10px;background:var(--bg2);font-size:11px;color:var(--text2);margin-left:6px;border:1px solid var(--border)}
 .spinner{display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;animation:spin .6s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .overlay{position:fixed;inset:0;background:rgba(255,255,255,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;font-size:15px;color:var(--text2);z-index:100}
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:200;padding:1rem}
+.modal{background:var(--bg);border-radius:var(--radius-lg);padding:1.5rem;width:100%;max-width:460px;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal-title{font-size:18px;font-weight:600;margin-bottom:.4rem}
+.modal-sub{font-size:13px;color:var(--text2);margin-bottom:1.25rem}
+.modal-field{margin-bottom:1rem}
+.modal-field label{display:block;font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:1.5rem}
+.comp-banner{background:var(--green-light);border:1px solid var(--green);border-radius:var(--radius);padding:.6rem 1rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.comp-banner-info{font-size:13px;color:var(--green-dark);font-weight:500}
+.comp-banner-meta{font-size:12px;color:var(--green)}
 </style>
 </head>
 <body>
 <div class="shell">
   <div class="topbar">
     <div class="logo"><div class="logo-mark">🏆</div>Kata scorer</div>
+    <div id="eventbadge" class="event-name" style="display:none"></div>
     <div class="spacer"></div>
     <div id="syncbadge" class="sync-badge"><span class="spinner"></span> Connecting…</div>
     <div class="topnav" id="topnav"></div>
   </div>
   <div class="main" id="root"><div class="overlay"><span class="spinner"></span> Loading…</div></div>
+  <div id="modal"></div>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getDatabase, ref, onValue, set, update, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getDatabase, ref, onValue, set, get, push, update } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC1AzHsaQSrP_CAYJwdE2nMIMBD0anlK-0",
@@ -117,94 +131,143 @@ const db = getDatabase(app);
 
 const DEFAULT_SCORE=7.0, MIN_SCORE=5.0, MAX_SCORE=9.9;
 
-// Local UI state (not synced)
 let ui = { view:'setup', activeMat:1, activeCat:null };
+let liveComp = null;    // current competition object { id, name, date, location, config:{matCount,categories}, ... }
+let activeCompId = null;
 
-// Live data from Firebase
-let data = { config: { matCount:2, categories:[] }, scores:{}, rankings:{} };
+// ── Sync badge ────────────────────────────────────────────────────
+function setSyncOk(ok){
+  const el=document.getElementById('syncbadge');
+  if(el){el.className='sync-badge '+(ok?'ok':'err');el.innerHTML=ok?'● Live':'⚠ Offline';}
+}
 
-let syncOk = false;
+// ── Bootstrap: load or create active competition ──────────────────
+let unsubComp = null;
 
-// ── Firebase listeners ────────────────────────────────────────────
-onValue(ref(db,'config'), snap => {
-  data.config = snap.val() || { matCount:2, categories:[] };
-  if(!data.config.categories) data.config.categories=[];
+onValue(ref(db,'activeCompId'), async snap => {
   setSyncOk(true);
-  render();
+  const id = snap.val();
+  if(!id){
+    // No active competition — show new competition modal
+    activeCompId = null; liveComp = null;
+    showNewCompModal(false);
+    return;
+  }
+  if(id === activeCompId) return;
+  activeCompId = id;
+  // Subscribe to this competition's data
+  if(unsubComp) unsubComp();
+  unsubComp = onValue(ref(db,`competitions/${id}`), csnap => {
+    liveComp = csnap.val();
+    if(!liveComp) return;
+    if(!liveComp.config) liveComp.config = {matCount:2, categories:[]};
+    if(!liveComp.config.categories) liveComp.config.categories = [];
+    updateEventBadge();
+    render();
+  });
 }, () => setSyncOk(false));
 
-onValue(ref(db,'scores'), snap => { data.scores = snap.val()||{}; render(); });
-onValue(ref(db,'rankings'), snap => { data.rankings = snap.val()||{}; render(); });
-
-function setSyncOk(ok){
-  syncOk=ok;
-  const el=document.getElementById('syncbadge');
-  if(el) el.className='sync-badge '+(ok?'ok':'err');
-  if(el) el.innerHTML=ok?'● Live':'⚠ Offline';
+function updateEventBadge(){
+  const el = document.getElementById('eventbadge');
+  if(!el) return;
+  if(liveComp && liveComp.name){
+    el.textContent = liveComp.name;
+    el.style.display = 'block';
+  } else {
+    el.style.display = 'none';
+  }
 }
+
+// ── New competition modal ─────────────────────────────────────────
+function showNewCompModal(canCancel){
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('modal').innerHTML = `
+    <div class="modal-backdrop">
+      <div class="modal">
+        <div class="modal-title">New competition</div>
+        <div class="modal-sub">Enter the event details to begin. This will archive any current competition data.</div>
+        <div class="modal-field"><label>Event name</label><input type="text" id="m-name" placeholder="e.g. Spring Regional Championship" /></div>
+        <div class="modal-field"><label>Date</label><input type="date" id="m-date" value="${today}" /></div>
+        <div class="modal-field"><label>Location</label><input type="text" id="m-loc" placeholder="e.g. Riverside Sports Centre, London" /></div>
+        <div class="modal-actions">
+          ${canCancel?`<button class="btn" onclick="closeModal()">Cancel</button>`:''}
+          <button class="btn btn-primary" onclick="createCompetition()">Create competition</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+window.closeModal = function(){ document.getElementById('modal').innerHTML=''; };
+
+window.createCompetition = function(){
+  const name = document.getElementById('m-name')?.value?.trim();
+  const date = document.getElementById('m-date')?.value;
+  const location = document.getElementById('m-loc')?.value?.trim();
+  if(!name){ alert('Please enter an event name.'); return; }
+  if(!date){ alert('Please enter a date.'); return; }
+  if(!location){ alert('Please enter a location.'); return; }
+
+  const newRef = push(ref(db,'competitions'));
+  const id = newRef.key;
+  const comp = {
+    id, name, date, location,
+    createdAt: Date.now(),
+    config: { matCount:2, categories:[] },
+    scores: {}, rankings: {}
+  };
+  set(newRef, comp).then(() => {
+    set(ref(db,'activeCompId'), id);
+    closeModal();
+    ui.view='setup'; ui.activeMat=1; ui.activeCat=null;
+  });
+};
 
 // ── Firebase writers ──────────────────────────────────────────────
-function saveConfig(){ set(ref(db,'config'), data.config); }
-
-function saveScore(matNum, catName, cmpIdx, scoreIdx, value){
-  const path = `scores/mat${matNum}/${fkey(catName)}/competitors/${cmpIdx}/scores/${scoreIdx}`;
-  set(ref(db, path), value);
-}
-
-function saveCompetitor(matNum, catName, cmpIdx, cmp){
-  set(ref(db,`scores/mat${matNum}/${fkey(catName)}/competitors/${cmpIdx}`), cmp);
-}
-
-function saveRanking(matNum, catName, rankArr){
-  set(ref(db,`rankings/mat${matNum}/${fkey(catName)}`), rankArr);
-}
-
-function removeCompetitorFromDb(matNum, catName, cmpIdx){
-  // rebuild competitors array without the removed index
-  const comps = getCompetitors(matNum, catName);
-  comps.splice(cmpIdx,1);
-  set(ref(db,`scores/mat${matNum}/${fkey(catName)}/competitors`), comps.length ? comps : null);
-  // clear ranking
-  set(ref(db,`rankings/mat${matNum}/${fkey(catName)}`), null);
+function compRef(path){ return ref(db,`competitions/${activeCompId}/${path}`); }
+function saveConfig(){ if(!activeCompId) return; set(compRef('config'), liveComp.config); }
+function saveScore(m, cat, ci, si, val){ if(!activeCompId) return; set(compRef(`scores/mat${m}/${fkey(cat)}/competitors/${ci}/scores/${si}`), val); }
+function saveCompetitor(m, cat, ci, cmp){ if(!activeCompId) return; set(compRef(`scores/mat${m}/${fkey(cat)}/competitors/${ci}`), cmp); }
+function saveRanking(m, cat, arr){ if(!activeCompId) return; set(compRef(`rankings/mat${m}/${fkey(cat)}`), arr); }
+function removeCompetitorFromDb(m, cat, ci){
+  const comps = getCompetitors(m,cat);
+  comps.splice(ci,1);
+  set(compRef(`scores/mat${m}/${fkey(cat)}/competitors`), comps.length?comps:null);
+  set(compRef(`rankings/mat${m}/${fkey(cat)}`), null);
 }
 
 // ── Helpers ───────────────────────────────────────────────────────
-function fkey(s){ return s.replace(/[.#$\[\]\/]/g,'_'); }
+function fkey(s){ return (s||'').replace(/[.#$\[\]\/]/g,'_'); }
 function esc(s){ return (s||'').replace(/\W/g,'_'); }
-
-function getCompetitors(m, cat){
-  const raw = data.scores?.[`mat${m}`]?.[fkey(cat)]?.competitors;
+function getCompetitors(m,cat){
+  const raw = liveComp?.scores?.[`mat${m}`]?.[fkey(cat)]?.competitors;
   if(!raw) return [];
-  // Firebase returns objects with numeric keys when array
   if(Array.isArray(raw)) return raw.filter(x=>x);
   return Object.keys(raw).sort((a,b)=>a-b).map(k=>raw[k]).filter(x=>x);
 }
-
-function getRankings(m, cat){
-  const r = data.rankings?.[`mat${m}`]?.[fkey(cat)];
+function getRankings(m,cat){
+  const r = liveComp?.rankings?.[`mat${m}`]?.[fkey(cat)];
   if(!r) return [];
   if(Array.isArray(r)) return r;
   return Object.keys(r).sort((a,b)=>a-b).map(k=>r[k]);
 }
-
 function calcAvg(scores){
   if(!scores) return null;
-  const arr = Array.isArray(scores)?scores:Object.values(scores);
-  const v = arr.filter(s=>s!==null&&s!==''&&s!==undefined);
+  const arr=Array.isArray(scores)?scores:Object.values(scores);
+  const v=arr.filter(s=>s!==null&&s!==undefined&&s!=='');
   if(!v.length) return null;
   return (v.reduce((a,b)=>a+parseFloat(b),0)/v.length).toFixed(2);
 }
-
 function fullyScored(scores){
   if(!scores) return false;
-  const arr = Array.isArray(scores)?scores:Object.values(scores);
-  return arr.filter(s=>s!==null&&s!==''&&s!==undefined).length===5;
+  const arr=Array.isArray(scores)?scores:Object.values(scores);
+  return arr.filter(s=>s!==null&&s!==undefined&&s!=='').length===5;
 }
-
-function catsForMat(m){ return (data.config.categories||[]).filter(c=>c.mat===m); }
+function catsForMat(m){ return (liveComp?.config?.categories||[]).filter(c=>c.mat===m); }
+function matCount(){ return liveComp?.config?.matCount||2; }
 
 // ── Render ────────────────────────────────────────────────────────
 function render(){
+  if(!liveComp) return;
   document.getElementById('topnav').innerHTML = buildNav();
   document.getElementById('root').innerHTML =
     ui.view==='setup' ? buildSetup() :
@@ -214,7 +277,7 @@ function render(){
 function buildNav(){
   return [['setup','⚙','Setup'],['scoring','✏','Scoring']].map(([v,ic,label])=>
     `<button class="nav-btn${ui.view===v?' active':''}" onclick="go('${v}')">${ic} ${label}</button>`
-  ).join('');
+  ).join('') + `<button class="nav-btn" onclick="showNewCompModal(true)" style="color:var(--green)">＋ New event</button>`;
 }
 
 window.go = function(v){
@@ -225,32 +288,44 @@ window.go = function(v){
   ui.view=v; render();
 };
 
+window.showNewCompModal = showNewCompModal;
+
 // ── Setup view ────────────────────────────────────────────────────
 function buildSetup(){
-  const cats = (data.config.categories||[]).map((c,i)=>
+  const cfg = liveComp.config;
+  const cats = cfg.categories||[];
+  const mc = cfg.matCount||2;
+
+  const compBanner = `<div class="comp-banner">
+    <div>
+      <div class="comp-banner-info">🏆 ${liveComp.name}</div>
+      <div class="comp-banner-meta">${formatDate(liveComp.date)} &nbsp;·&nbsp; ${liveComp.location}</div>
+    </div>
+    <button class="btn btn-sm btn-warning" onclick="showNewCompModal(true)">＋ New event</button>
+  </div>`;
+
+  const catRows = cats.map((c,i)=>
     `<div class="cat-list-row">
       <span style="font-size:13px;font-weight:500">${c.name}</span>
       <select style="width:100px" onchange="setCatMat(${i},parseInt(this.value))">${
-        Array.from({length:data.config.matCount||2},(_,j)=>
-          `<option value="${j+1}"${c.mat===j+1?' selected':''}>Mat ${j+1}</option>`
-        ).join('')
+        Array.from({length:mc},(_,j)=>`<option value="${j+1}"${c.mat===j+1?' selected':''}>Mat ${j+1}</option>`).join('')
       }</select>
       <button class="btn btn-sm btn-danger" onclick="removeCat(${i})">✕</button>
     </div>`
   ).join('');
 
-  const matOpts = Array.from({length:data.config.matCount||2},(_,i)=>
-    `<option value="${i+1}">Mat ${i+1}</option>`).join('');
+  const matOpts = Array.from({length:mc},(_,i)=>`<option value="${i+1}">Mat ${i+1}</option>`).join('');
 
-  return `<div class="page-header"><div class="page-title">Competition setup</div><div class="page-sub">Changes sync to all connected devices instantly</div></div>
+  return `${compBanner}
+  <div class="page-header"><div class="page-title">Competition setup</div><div class="page-sub">Changes sync to all connected devices instantly</div></div>
   <div class="card">
     <div class="card-header"><span class="card-title">Mats / rings</span></div>
     <div class="section-label">Number of simultaneous mats</div>
-    <div class="pills">${[1,2,3,4,5].map(n=>`<button class="pill${(data.config.matCount||2)===n?' active':''}" onclick="setMats(${n})">${n} mat${n>1?'s':''}</button>`).join('')}</div>
+    <div class="pills">${[1,2,3,4,5].map(n=>`<button class="pill${mc===n?' active':''}" onclick="setMats(${n})">${n} mat${n>1?'s':''}</button>`).join('')}</div>
   </div>
   <div class="card">
     <div class="card-header"><span class="card-title">Categories</span><span class="card-meta">Assign each to a mat</span></div>
-    ${cats||'<div class="empty">No categories yet — add one below</div>'}
+    ${catRows||'<div class="empty">No categories yet — add one below</div>'}
     <div class="add-row">
       <input type="text" id="newCatName" placeholder="Category name, e.g. Junior Male" class="flex-1" onkeydown="if(event.key==='Enter')addCat()" />
       <select id="newCatMat" style="width:100px">${matOpts}</select>
@@ -258,75 +333,77 @@ function buildSetup(){
     </div>
   </div>
   <div style="display:flex;justify-content:flex-end">
-    <button class="btn btn-primary" onclick="go('scoring')" ${(data.config.categories||[]).length===0?'disabled':''}>▶ Start scoring</button>
+    <button class="btn btn-primary" onclick="go('scoring')" ${cats.length===0?'disabled':''}>▶ Start scoring</button>
   </div>`;
 }
 
+function formatDate(d){
+  if(!d) return '';
+  const [y,m,day] = d.split('-');
+  return `${day}/${m}/${y}`;
+}
+
 window.setMats = function(n){
-  data.config.matCount=n;
-  (data.config.categories||[]).forEach(c=>{ if(c.mat>n) c.mat=n; });
+  liveComp.config.matCount=n;
+  (liveComp.config.categories||[]).forEach(c=>{ if(c.mat>n) c.mat=n; });
   saveConfig(); render();
 };
-
 window.addCat = function(){
-  const name = document.getElementById('newCatName')?.value?.trim();
-  const mat = parseInt(document.getElementById('newCatMat')?.value||'1');
+  const name=document.getElementById('newCatName')?.value?.trim();
+  const mat=parseInt(document.getElementById('newCatMat')?.value||'1');
   if(!name) return;
-  if(!(data.config.categories||[]).find(c=>c.name===name)){
-    if(!data.config.categories) data.config.categories=[];
-    data.config.categories.push({name,mat});
+  if(!(liveComp.config.categories||[]).find(c=>c.name===name)){
+    if(!liveComp.config.categories) liveComp.config.categories=[];
+    liveComp.config.categories.push({name,mat});
     saveConfig();
   }
   render();
 };
-
-window.removeCat = function(i){
-  data.config.categories.splice(i,1);
-  saveConfig(); render();
-};
-
-window.setCatMat = function(i,m){
-  data.config.categories[i].mat=m;
-  saveConfig(); render();
-};
+window.removeCat = function(i){ liveComp.config.categories.splice(i,1); saveConfig(); render(); };
+window.setCatMat = function(i,m){ liveComp.config.categories[i].mat=m; saveConfig(); render(); };
 
 // ── Scoring view ──────────────────────────────────────────────────
 function buildScoring(){
-  const m = ui.activeMat;
-  const matCats = catsForMat(m);
+  const m=ui.activeMat;
+  const matCats=catsForMat(m);
   if(!ui.activeCat||!matCats.find(c=>c.name===ui.activeCat))
-    ui.activeCat = matCats.length ? matCats[0].name : null;
-  const cat = ui.activeCat;
+    ui.activeCat=matCats.length?matCats[0].name:null;
+  const cat=ui.activeCat;
 
-  const matPills = Array.from({length:data.config.matCount||2},(_,i)=>i+1).map(n=>
+  const compBanner=`<div class="comp-banner">
+    <div>
+      <div class="comp-banner-info">🏆 ${liveComp.name}</div>
+      <div class="comp-banner-meta">${formatDate(liveComp.date)} &nbsp;·&nbsp; ${liveComp.location}</div>
+    </div>
+  </div>`;
+
+  const matPills=Array.from({length:matCount()},(_,i)=>i+1).map(n=>
     `<button class="pill${m===n?' active':''}" onclick="setActiveMat(${n})">Mat ${n} <span style="font-size:11px;opacity:.7">(${catsForMat(n).length})</span></button>`
   ).join('');
 
   if(!cat||!matCats.length){
-    return `<div class="page-header"><div class="page-title">Live scoring</div></div>
+    return `${compBanner}<div class="page-header"><div class="page-title">Live scoring</div></div>
     <div class="pills">${matPills}</div>
     <div class="no-cats">No categories assigned to Mat ${m}. Go to ⚙ Setup to assign categories.</div>`;
   }
 
-  const catTabs = matCats.map(c=>
+  const catTabs=matCats.map(c=>
     `<button class="cat-tab${cat===c.name?' active':''}" onclick="setActiveCat('${c.name.replace(/'/g,"\\'")}')">${c.name}</button>`
   ).join('');
 
-  const comps = getCompetitors(m, cat);
-  const sr = getRankings(m, cat);
-  const allWithIdx = comps.map((x,i)=>({...x,_idx:i,av:calcAvg(x.scores)}));
-  const disp = sr.length>0
-    ? [...sr.map(i=>allWithIdx[i]).filter(Boolean), ...allWithIdx.filter(x=>!sr.includes(x._idx))]
-    : allWithIdx;
-
-  const total=allWithIdx.length;
-  const fully=allWithIdx.filter(x=>fullyScored(x.scores)).length;
+  const comps=getCompetitors(m,cat);
+  const sr=getRankings(m,cat);
+  const allWithIdx=comps.map((x,i)=>({...x,_idx:i,av:calcAvg(x.scores)}));
+  const disp=sr.length>0
+    ?[...sr.map(i=>allWithIdx[i]).filter(Boolean),...allWithIdx.filter(x=>!sr.includes(x._idx))]
+    :allWithIdx;
+  const total=allWithIdx.length, fully=allWithIdx.filter(x=>fullyScored(x.scores)).length;
   let ti=1;
 
-  const rows = disp.length ? disp.map(c=>{
-    const rank = sr.length>0 ? sr.indexOf(c._idx) : -1;
-    const scoreArr = Array.isArray(c.scores) ? c.scores : [null,null,null,null,null];
-    const inputs = [0,1,2,3,4].map(j=>{
+  const rows=disp.length?disp.map(c=>{
+    const rank=sr.length>0?sr.indexOf(c._idx):-1;
+    const scoreArr=Array.isArray(c.scores)?c.scores:[null,null,null,null,null];
+    const inputs=[0,1,2,3,4].map(j=>{
       const val=scoreArr[j]; const empty=val===null||val===undefined||val==='';
       const isDef=!empty&&parseFloat(val)===DEFAULT_SCORE;
       return `<input type="number" class="score-input${isDef?' is-default':''}" min="${MIN_SCORE}" max="${MAX_SCORE}" step="0.1"
@@ -337,9 +414,7 @@ function buildScoring(){
         onblur="onBlur(this,${c._idx},${j})"
         onkeydown="onKey(event,${c._idx},${j})" />`;
     }).join('');
-    const chip = rank>=0
-      ? (rank<3?`<div class="rank-chip rank-${rank+1}">${rank+1}</div>`:`<div class="rank-chip">${rank+1}</div>`)
-      : `<div class="rank-chip" style="font-size:10px">—</div>`;
+    const chip=rank>=0?(rank<3?`<div class="rank-chip rank-${rank+1}">${rank+1}</div>`:`<div class="rank-chip">${rank+1}</div>`):`<div class="rank-chip" style="font-size:10px">—</div>`;
     return `<div class="comp-row">
       <span style="font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.name}</span>
       ${inputs}
@@ -347,9 +422,10 @@ function buildScoring(){
       ${chip}
       <button class="btn btn-sm btn-danger" style="padding:4px 7px" onclick="removeCmp(${c._idx})">✕</button>
     </div>`;
-  }).join('') : `<div class="empty">No competitors yet — add names below</div>`;
+  }).join(''):`<div class="empty">No competitors yet — add names below</div>`;
 
-  return `<div class="page-header"><div class="page-title">Live scoring</div></div>
+  return `${compBanner}
+  <div class="page-header"><div class="page-title">Live scoring</div></div>
   <div class="pills">${matPills}</div>
   <div class="cat-tabs">${catTabs}</div>
   <div class="status-bar">
@@ -366,7 +442,7 @@ function buildScoring(){
       <span class="col-h">Judge 1</span><span class="col-h">Judge 2</span><span class="col-h">Judge 3</span><span class="col-h">Judge 4</span><span class="col-h">Judge 5</span>
       <span class="col-h">Average</span><span class="col-h">Rank</span><span></span>
     </div>
-    <div id="comp-list">${rows}</div>
+    ${rows}
     <div class="add-row">
       <input type="text" id="newName" placeholder="Competitor name" class="flex-1" onkeydown="if(event.key==='Enter')addCmp()" />
       <button class="btn btn-primary" onclick="addCmp()">+ Add</button>
@@ -374,45 +450,36 @@ function buildScoring(){
   </div>`;
 }
 
-window.setActiveMat = function(m){
-  ui.activeMat=m;
-  const mc=catsForMat(m);
-  ui.activeCat=mc.length?mc[0].name:null;
-  render();
-};
+window.setActiveMat=function(m){ ui.activeMat=m; const mc=catsForMat(m); ui.activeCat=mc.length?mc[0].name:null; render(); };
+window.setActiveCat=function(c){ ui.activeCat=c; render(); };
 
-window.setActiveCat = function(c){ ui.activeCat=c; render(); };
-
-window.onFocus = function(input,ci,si){
-  const comps=getCompetitors(ui.activeMat,ui.activeCat);
-  const c=comps[ci]; if(!c) return;
+window.onFocus=function(input,ci,si){
+  const comps=getCompetitors(ui.activeMat,ui.activeCat); const c=comps[ci]; if(!c) return;
   const scores=Array.isArray(c.scores)?[...c.scores]:[null,null,null,null,null];
   if(scores[si]===null||scores[si]===undefined||scores[si]===''){
-    input.value=DEFAULT_SCORE.toFixed(1);
-    input.classList.add('is-default');
+    input.value=DEFAULT_SCORE.toFixed(1); input.classList.add('is-default');
     saveScore(ui.activeMat,ui.activeCat,ci,si,DEFAULT_SCORE);
   }
   setTimeout(()=>input.select(),0);
 };
 
-window.onChange = function(input,ci,si){
+window.onChange=function(input,ci,si){
   let v=parseFloat(input.value); if(isNaN(v)) v=DEFAULT_SCORE;
   v=Math.min(MAX_SCORE,Math.max(MIN_SCORE,Math.round(v*10)/10));
-  input.value=v.toFixed(1);
-  input.classList.toggle('is-default',v===DEFAULT_SCORE);
+  input.value=v.toFixed(1); input.classList.toggle('is-default',v===DEFAULT_SCORE);
   saveScore(ui.activeMat,ui.activeCat,ci,si,v);
   refreshAvgLocal(ci,si,v);
 };
 
-window.onBlur = function(input,ci,si){
+window.onBlur=function(input,ci,si){
   let v=parseFloat(input.value);
   if(isNaN(v)){v=DEFAULT_SCORE;input.value=DEFAULT_SCORE.toFixed(1);input.classList.add('is-default');}
-  else{ v=Math.min(MAX_SCORE,Math.max(MIN_SCORE,Math.round(v*10)/10)); input.value=v.toFixed(1); input.classList.toggle('is-default',v===DEFAULT_SCORE); }
+  else{v=Math.min(MAX_SCORE,Math.max(MIN_SCORE,Math.round(v*10)/10));input.value=v.toFixed(1);input.classList.toggle('is-default',v===DEFAULT_SCORE);}
   saveScore(ui.activeMat,ui.activeCat,ci,si,v);
   refreshAvgLocal(ci,si,v);
 };
 
-window.onKey = function(e,ci,si){ if(e.key==='Enter'){e.preventDefault();focusNext(ci,si);} };
+window.onKey=function(e,ci,si){ if(e.key==='Enter'){e.preventDefault();focusNext(ci,si);} };
 
 function focusNext(ci,si){
   if(si<4){const n=document.querySelector(`input[data-cidx="${ci}"][data-sidx="${si+1}"]`);if(n){n.focus();return;}}
@@ -421,7 +488,6 @@ function focusNext(ci,si){
 }
 
 function refreshAvgLocal(ci,si,newVal){
-  // Read all current input values for this competitor to compute avg without waiting for Firebase
   const inputs=[0,1,2,3,4].map(j=>{
     if(j===si) return newVal;
     const el=document.querySelector(`input[data-cidx="${ci}"][data-sidx="${j}"]`);
@@ -433,35 +499,24 @@ function refreshAvgLocal(ci,si,newVal){
   if(el) el.textContent=avg??'—';
 }
 
-window.updateRanking = function(){
+window.updateRanking=function(){
   const m=ui.activeMat,cat=ui.activeCat;
   const comps=getCompetitors(m,cat);
   const ranked=[...comps].map((x,i)=>({...x,_idx:i,av:calcAvg(x.scores)}))
-    .sort((a,b)=>{
-      if(b.av===null&&a.av===null)return 0;
-      if(a.av===null)return 1; if(b.av===null)return-1;
-      return parseFloat(b.av)-parseFloat(a.av);
-    });
+    .sort((a,b)=>{if(b.av===null&&a.av===null)return 0;if(a.av===null)return 1;if(b.av===null)return-1;return parseFloat(b.av)-parseFloat(a.av)});
   saveRanking(m,cat,ranked.map(x=>x._idx));
 };
 
-window.addCmp = function(){
-  const input=document.getElementById('newName');
-  const name=input?.value?.trim(); if(!name) return;
+window.addCmp=function(){
+  const input=document.getElementById('newName'); const name=input?.value?.trim(); if(!name) return;
   const comps=getCompetitors(ui.activeMat,ui.activeCat);
   const newIdx=comps.length;
   saveCompetitor(ui.activeMat,ui.activeCat,newIdx,{name,scores:[null,null,null,null,null]});
   input.value='';
-  setTimeout(()=>{
-    const f=document.querySelector(`input[data-cidx="${newIdx}"][data-sidx="0"]`);
-    if(f) f.focus();
-  },400);
+  setTimeout(()=>{const f=document.querySelector(`input[data-cidx="${newIdx}"][data-sidx="0"]`);if(f)f.focus();},400);
 };
 
-window.removeCmp = function(idx){
-  removeCompetitorFromDb(ui.activeMat,ui.activeCat,idx);
-};
-
+window.removeCmp=function(idx){ removeCompetitorFromDb(ui.activeMat,ui.activeCat,idx); };
 </script>
 </body>
 </html>

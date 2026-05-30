@@ -455,10 +455,16 @@ window.setActiveCat=function(c){ ui.activeCat=c; render(); };
 
 window.onFocus=function(input,ci,si){
   const comps=getCompetitors(ui.activeMat,ui.activeCat); const c=comps[ci]; if(!c) return;
-  const scores=Array.isArray(c.scores)?[...c.scores]:[null,null,null,null,null];
-  if(scores[si]===null||scores[si]===undefined||scores[si]===''){
-    input.value=DEFAULT_SCORE.toFixed(1); input.classList.add('is-default');
-    saveScore(ui.activeMat,ui.activeCat,ci,si,DEFAULT_SCORE);
+  const scores=Array.isArray(c.scores)?c.scores:[null,null,null,null,null];
+  const val=scores[si];
+  const isEmpty=val===null||val===undefined||val==='';
+  if(isEmpty){
+    // Show default visually but do NOT save to Firebase yet
+    input.value=DEFAULT_SCORE.toFixed(1);
+    input.classList.add('is-default');
+    input.dataset.pending='true'; // marks as not yet confirmed
+  } else {
+    input.dataset.pending='false';
   }
   setTimeout(()=>input.select(),0);
 };
@@ -466,15 +472,23 @@ window.onFocus=function(input,ci,si){
 window.onChange=function(input,ci,si){
   let v=parseFloat(input.value); if(isNaN(v)) v=DEFAULT_SCORE;
   v=Math.min(MAX_SCORE,Math.max(MIN_SCORE,Math.round(v*10)/10));
-  input.value=v.toFixed(1); input.classList.toggle('is-default',v===DEFAULT_SCORE);
+  input.value=v.toFixed(1);
+  input.classList.toggle('is-default',v===DEFAULT_SCORE);
+  input.dataset.pending='false'; // user has typed a value — confirmed
   saveScore(ui.activeMat,ui.activeCat,ci,si,v);
   refreshAvgLocal(ci,si,v);
 };
 
 window.onBlur=function(input,ci,si){
+  // If still pending (judge tabbed through without changing), save the default now
+  const wasPending=input.dataset.pending==='true';
   let v=parseFloat(input.value);
-  if(isNaN(v)){v=DEFAULT_SCORE;input.value=DEFAULT_SCORE.toFixed(1);input.classList.add('is-default');}
-  else{v=Math.min(MAX_SCORE,Math.max(MIN_SCORE,Math.round(v*10)/10));input.value=v.toFixed(1);input.classList.toggle('is-default',v===DEFAULT_SCORE);}
+  if(isNaN(v)) v=DEFAULT_SCORE;
+  v=Math.min(MAX_SCORE,Math.max(MIN_SCORE,Math.round(v*10)/10));
+  input.value=v.toFixed(1);
+  input.classList.toggle('is-default',v===DEFAULT_SCORE);
+  input.dataset.pending='false';
+  // Only save to Firebase on blur (single write per field, confirmed)
   saveScore(ui.activeMat,ui.activeCat,ci,si,v);
   refreshAvgLocal(ci,si,v);
 };
@@ -491,7 +505,9 @@ function refreshAvgLocal(ci,si,newVal){
   const inputs=[0,1,2,3,4].map(j=>{
     if(j===si) return newVal;
     const el=document.querySelector(`input[data-cidx="${ci}"][data-sidx="${j}"]`);
-    return el&&el.value!==''?parseFloat(el.value):null;
+    // Exclude fields that are still pending (showing default but not confirmed)
+    if(!el||el.value===''||el.dataset.pending==='true') return null;
+    return parseFloat(el.value);
   });
   const v=inputs.filter(x=>x!==null);
   const avg=v.length?(v.reduce((a,b)=>a+b,0)/v.length).toFixed(2):null;

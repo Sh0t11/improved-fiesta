@@ -167,6 +167,12 @@ function calcAvg(scores){
   return (v.reduce((a,b)=>a+parseFloat(b),0)/v.length).toFixed(2);
 }
 
+function fullyScored(scores){
+  if(!scores) return false;
+  const arr=Array.isArray(scores)?scores:Object.values(scores);
+  return arr.filter(s=>s!==null&&s!==undefined&&s!=='').length===5;
+}
+
 function getScoreArr(scores){
   if(!scores) return [null,null,null,null,null];
   if(Array.isArray(scores)) return scores;
@@ -227,7 +233,7 @@ function render(){
   cats.forEach(cat=>{
     const comps=getCompetitors(comp,cat.mat,cat.name);
     totalComps+=comps.length;
-    totalScored+=comps.filter(c=>calcAvg(c.scores)!==null).length;
+    totalScored+=comps.filter(c=>fullyScored(c.scores)).length;
   });
 
   const filterPills=[0,...Array.from({length:mc},(_,i)=>i+1)].map(n=>
@@ -270,7 +276,7 @@ function render(){
         return `<div class="res-row">${chip}<span style="font-size:13px;font-weight:500">${c.name}${pending}</span>${scoreCells}<div class="avg-cell">${c.av??'—'}</div></div>`;
       }).join('');
 
-      const scoredCount=allWithIdx.filter(c=>c.av!==null).length;
+      const scoredCount=allWithIdx.filter(c=>fullyScored(c.scores)).length;
       return `<div class="card">
         <div class="card-header">
           <span class="card-title">${cat.name}</span>
